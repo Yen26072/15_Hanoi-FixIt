@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".activity.Login">
+
+    <ImageView
+        android:id="@+id/logoLogin"
+        android:src="@drawable/logo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"/>
+
+
+    <!-- Số điện thoại -->
+    <TextView
+        android:id="@+id/txtPhoneLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:text="Số điện thoại"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edtPhoneLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_edit"
+        android:textSize="16dp"
+        android:inputType="phone"
+        android:padding="10dp" />
+
+    <!-- Mật khẩu -->
+    <TextView
+        android:id="@+id/txtPasswordLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:text="Mật khẩu"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edtPasswordLogin"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16dp"
+        android:background="@drawable/edittext_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Quên mật khẩu -->
+    <TextView
+        android:id="@+id/txtForgotLogin"
+        android:text="Quên mật khẩu?"
+        android:textColor="#121EFF"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="start"
+        android:textSize="16dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Nút đăng nhập -->
+    <Button
+        android:id="@+id/btnLoginLogin"
+        android:text="Đăng nhập"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#121EFF"
+        android:layout_marginStart="70dp"
+        android:background="@drawable/button_edit"
+        android:layout_marginEnd="70dp"
+        android:textSize="16dp"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Đăng ký -->
+    <TextView
+        android:id="@+id/tvRegisterLogin"
+        android:text="Đăng ký"
+        android:textColor="#121EFF"
+        android:textSize="16dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
