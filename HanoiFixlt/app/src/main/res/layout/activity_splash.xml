@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@android:color/white"
+    tools:context=".activity.SplashActivity"> <!-- Thay thế bằng tên Activity của bạn -->
+
+    <!-- Logo của ứng dụng -->
+    <!-- Bạn cần đặt file logo của mình vào thư mục drawable, ví dụ: logo_hanoi_fixit.png -->
+    <!-- Hoặc sử dụng placeholder đã tạo trước đó: ic_hanoi_fixit_logo_placeholder.xml -->
+
+    <!-- Tên ứng dụng -->
+
+    <!-- Chỉ báo tải (Loading Spinner) -->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="183dp"
+        android:layout_height="182dp"
+        app:srcCompat="@drawable/logo" />
+
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="#4F46E5" /> <!-- Màu vòng tròn tải (tương tự màu chủ đạo của app) -->
+
+</LinearLayout>
