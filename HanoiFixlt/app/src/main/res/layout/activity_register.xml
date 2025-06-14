@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".activity.Register">
+
+    <ImageView
+        android:id="@+id/logoRegister"
+        android:src="@drawable/logo"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/txtError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:text="Số điện thoại hoặc mật khẩu sai"
+        android:textColor="#FF0000"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
+
+
+    <!-- Số điện thoại -->
+    <TextView
+        android:id="@+id/txtPhoneRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:text="Số điện thoại"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edtPhoneRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_edit"
+        android:textSize="16sp"
+        android:inputType="phone"
+        android:padding="10dp" />
+
+    <!-- Mật khẩu -->
+    <TextView
+        android:id="@+id/txtPasswordRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:text="Mật khẩu"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edtPasswordRegister"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:background="@drawable/edittext_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Nhập lại mật khẩu -->
+    <TextView
+        android:id="@+id/txtPasswordRegister2"
+        android:text="Nhập lại mật khẩu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/edtPasswordRegister2"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:background="@drawable/edittext_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!-- Nút đăng nhập -->
+    <Button
+        android:id="@+id/btnRegisterRegister"
+        android:text="Đăng ký"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#121EFF"
+        android:layout_marginStart="70dp"
+        android:background="@drawable/button_edit"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="30dp"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
