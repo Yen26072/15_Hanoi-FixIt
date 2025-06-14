@@ -13,9 +13,22 @@
         android:id="@+id/logoRegister"
         android:src="@drawable/logo"
         android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_marginTop="15dp"
         android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/txtError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:text="Số điện thoại hoặc mật khẩu sai"
+        android:textColor="#FF0000"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
 
 
     <!-- Số điện thoại -->
@@ -25,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
         android:text="Số điện thoại"
         android:textColor="@color/black"
         android:textSize="16sp" />
