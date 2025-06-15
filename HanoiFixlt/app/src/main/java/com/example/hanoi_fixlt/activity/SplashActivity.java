@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.example.hanoi_fixlt.MainActivity;
+import com.example.hanoi_fixlt.activity.MainActivity;
 import com.example.hanoi_fixlt.R;
 
 public class SplashActivity extends AppCompatActivity {

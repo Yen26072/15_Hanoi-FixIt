@@ -1,4 +1,4 @@
-package com.example.hanoi_fixlt;
+package com.example.hanoi_fixlt.activity;
 
 import android.os.Bundle;
 
@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.hanoi_fixlt.R;
+import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +22,13 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+
+
         });
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("Trang chủ"));
+        tabLayout.addTab(tabLayout.newTab().setText("Gửi báo cáo"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tra cứu"));
+        tabLayout.addTab(tabLayout.newTab().setText("Bản đồ"));
     }
 }
