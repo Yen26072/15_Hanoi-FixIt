@@ -5,8 +5,23 @@ public class User {
     private String passwordHash; // Mật khẩu đã băm
     private String fullName; // Họ và tên
     private String phoneNumber; // Số điện thoại
-    private String defaultDistrict; // Quận mặc định
-    private String defaultWard; // Phường mặc định
+    private String avatarurl;
+
+    public User(String userId, String passwordHash, String fullName, String phoneNumber, String avatarurl) {
+        this.userId = userId;
+        this.passwordHash = passwordHash;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.avatarurl = avatarurl;
+    }
+
+    public String getAvatarurl() {
+        return avatarurl;
+    }
+
+    public void setAvatarurl(String avatarurl) {
+        this.avatarurl = avatarurl;
+    }
 
     public User() {
     }
@@ -41,30 +56,5 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getDefaultDistrict() {
-        return defaultDistrict;
-    }
-
-    public void setDefaultDistrict(String defaultDistrict) {
-        this.defaultDistrict = defaultDistrict;
-    }
-
-    public String getDefaultWard() {
-        return defaultWard;
-    }
-
-    public void setDefaultWard(String defaultWard) {
-        this.defaultWard = defaultWard;
-    }
-
-    public User(String userId, String passwordHash, String fullName, String phoneNumber, String defaultDistrict, String defaultWard) {
-        this.userId = userId;
-        this.passwordHash = passwordHash;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.defaultDistrict = defaultDistrict;
-        this.defaultWard = defaultWard;
     }
 }
