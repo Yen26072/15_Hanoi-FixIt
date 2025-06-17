@@ -33,6 +33,29 @@
 
     <!-- Số điện thoại -->
     <TextView
+        android:id="@+id/txtNameRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="10dp"
+        android:text="Họ tên"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edtNameRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="70dp"
+        android:background="@drawable/edittext_edit"
+        android:inputType="text|textPersonName"
+        android:padding="10dp"
+        android:textSize="16sp" />
+
+    <TextView
         android:id="@+id/txtPhoneRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
