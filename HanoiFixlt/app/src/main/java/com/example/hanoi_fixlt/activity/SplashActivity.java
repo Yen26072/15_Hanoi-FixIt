@@ -8,6 +8,7 @@ import android.os.Looper;
 
 import com.example.hanoi_fixlt.activity.MainActivity;
 import com.example.hanoi_fixlt.R;
+import com.google.firebase.FirebaseApp;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -17,6 +18,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_splash); // Đặt layout cho Activity này
 
         // Sử dụng Handler để trì hoãn việc chuyển sang MainActivity

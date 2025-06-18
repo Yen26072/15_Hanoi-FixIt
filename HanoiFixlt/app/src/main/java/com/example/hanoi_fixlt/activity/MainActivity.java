@@ -18,12 +18,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.hanoi_fixlt.R;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import com.example.hanoi_fixlt.R;
-import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnRegister = findViewById(R.id.btnRegister);
-        btnLogin = findViewById(R.id.btnLoginLogin);
+        btnLogin = findViewById(R.id.btnLogin);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
