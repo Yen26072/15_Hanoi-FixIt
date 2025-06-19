@@ -16,38 +16,74 @@
         app:srcCompat="@drawable/logo" />
 
     <LinearLayout
+        android:id="@+id/layoutButton"
         android:layout_width="match_parent"
         android:layout_height="62dp"
         android:gravity="center_vertical|end"
         android:orientation="horizontal"
-        android:paddingHorizontal="0dp">
+        android:paddingHorizontal="0dp"
+        android:visibility="visible">
 
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="15dp"
             android:background="@android:color/transparent"
             android:backgroundTint="@color/white"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
             android:text="Đăng ký"
             android:textAllCaps="false"
             android:textColor="@color/blue"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/blue"
-            android:background="@drawable/button_edit"
             android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="15dp"
+            android:background="@drawable/button_edit"
+            android:backgroundTint="@color/blue"
             android:text="Đăng nhập"
-            android:textColor="#ffffff"
             android:textAllCaps="false"
-            android:textSize="14sp" />
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutImage"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:gravity="center_vertical|end"
+        android:orientation="horizontal"
+        android:paddingHorizontal="0dp"
+        android:visibility="invisible">
+
+        <ImageButton
+            android:id="@+id/imageNotifications"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="180dp"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/ic_notifications" />
+
+        <ImageButton
+            android:id="@+id/imageAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@color/white"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/ic_avatar" />
     </LinearLayout>
 </LinearLayout>
