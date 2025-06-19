@@ -18,6 +18,19 @@
         android:layout_gravity="center"/>
 
 
+    <TextView
+        android:id="@+id/txtErrorLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:text="Số điện thoại hoặc mật khẩu sai"
+        android:textColor="#FF0000"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
+
     <!-- Số điện thoại -->
     <TextView
         android:id="@+id/txtPhoneLogin"
@@ -83,7 +96,7 @@
         android:id="@+id/btnLoginLogin"
         android:text="Đăng nhập"
         android:textColor="@android:color/white"
-        android:backgroundTint="#121EFF"
+        android:backgroundTint="@color/blue"
         android:layout_marginStart="70dp"
         android:background="@drawable/button_edit"
         android:layout_marginEnd="70dp"
@@ -97,7 +110,7 @@
     <TextView
         android:id="@+id/tvRegisterLogin"
         android:text="Đăng ký"
-        android:textColor="#121EFF"
+        android:textColor="@color/blue"
         android:textSize="16dp"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"

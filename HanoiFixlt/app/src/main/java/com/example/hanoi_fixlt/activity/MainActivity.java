@@ -2,14 +2,13 @@ package com.example.hanoi_fixlt.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,16 +16,17 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.hanoi_fixlt.R;
+import com.example.hanoi_fixlt.adapter.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuth;
 
-import com.example.hanoi_fixlt.R;
-import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    TabLayout tabLayout;
+    ViewPager2 viewPager;
+    ViewPagerAdapter viewPagerAdapter;
     Button btnRegister, btnLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,32 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
+
         btnRegister = findViewById(R.id.btnRegister);
-        btnLogin = findViewById(R.id.btnLoginLogin);
+        btnLogin = findViewById(R.id.btnLogin);
+
+        viewPager.setAdapter(null);
+        boolean loggedIn = FirebaseAuth.getInstance().getCurrentUser() != null;
+        viewPager.setAdapter(new ViewPagerAdapter(this, loggedIn));
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            View customTab = LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+            TextView tabText = customTab.findViewById(R.id.tabText);
+
+            switch (position) {
+                case 0: tabText.setText("Trang chủ"); break;
+                case 1: tabText.setText("Gửi báo cáo"); break;
+                case 2: tabText.setText("Tra cứu"); break;
+                case 3: tabText.setText("Bản đồ"); break;
+            }
+
+            tab.setCustomView(customTab);
+        }).attach();
+
+        int tabToOpen = getIntent().getIntExtra("tabToOpen", 0);
+        viewPager.setCurrentItem(tabToOpen, false);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,11 +83,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        viewPager.setAdapter(new ViewPagerAdapter(this, isLoggedIn()));
+//        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+//
+//            tab.setText(getTabTitle(position)); // tiêu đề không đổi
+//        }).attach();
+    }
 
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Trang chủ"));
-        tabLayout.addTab(tabLayout.newTab().setText("Gửi báo cáo"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tra cứu"));
-        tabLayout.addTab(tabLayout.newTab().setText("Bản đồ"));
+    private void refreshViewPager() {
+        boolean loggedIn = FirebaseAuth.getInstance().getCurrentUser() != null;
+        viewPager.setAdapter(new ViewPagerAdapter(this, loggedIn));
+
+        // Giữ nguyên vị trí tab hiện tại
+        int currentItem = viewPager.getCurrentItem();
+        viewPager.setCurrentItem(currentItem, false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && data != null) {
+            if (data.getBooleanExtra("REFRESH_NEEDED", false)) {
+                refreshViewPager();
+            }
+        }
     }
 }
