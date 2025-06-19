@@ -3,10 +3,15 @@
     <style name="Base.Theme.HanoiFixlt" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <!-- Thêm các thuộc tính cho TabLayout -->
+        <item name="tabPadding">0dp</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="tabPaddingTop">0dp</item>
+        <item name="tabPaddingBottom">0dp</item>
+        <item name="android:minHeight">0dp</item>
     </style>
 
     <style name="Theme.HanoiFixlt" parent="Base.Theme.HanoiFixlt" />
-    <color name="button_blue">#2196F3</color>
-
-
 </resources>

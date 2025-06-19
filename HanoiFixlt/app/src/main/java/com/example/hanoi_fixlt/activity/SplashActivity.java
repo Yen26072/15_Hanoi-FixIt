@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.example.hanoi_fixlt.activity.MainActivity;
 import com.example.hanoi_fixlt.R;
 import com.google.firebase.FirebaseApp;
 
@@ -21,11 +20,11 @@ public class SplashActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_splash); // Đặt layout cho Activity này
 
-        // Sử dụng Handler để trì hoãn việc chuyển sang MainActivity
+        // Sử dụng Handler để trì hoãn việc chuyển sang Home
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            // Tạo Intent để chuyển sang MainActivity
-            Intent i = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(i); // Bắt đầu MainActivity
+            // Tạo Intent để chuyển sang Home
+            Intent i = new Intent(SplashActivity.this, Home.class);
+            startActivity(i); // Bắt đầu Home
 
             // Kết thúc SplashActivity để người dùng không thể quay lại
             finish();

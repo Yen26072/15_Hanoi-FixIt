@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="62dp"
+    android:background="#FDFDFD"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="0dp">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="94dp"
+        android:layout_height="62dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/logo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:gravity="center_vertical|end"
+        android:orientation="horizontal"
+        android:paddingHorizontal="0dp">
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@color/white"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="Đăng ký"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/blue"
+            android:background="@drawable/button_edit"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="Đăng nhập"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>
