@@ -20,11 +20,11 @@ public class SplashActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_splash); // Đặt layout cho Activity này
 
-        // Sử dụng Handler để trì hoãn việc chuyển sang Home
+        // Sử dụng Handler để trì hoãn việc chuyển sang MainActivity
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            // Tạo Intent để chuyển sang Home
-            Intent i = new Intent(SplashActivity.this, Home.class);
-            startActivity(i); // Bắt đầu Home
+            // Tạo Intent để chuyển sang MainActivity
+            Intent i = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(i); // Bắt đầu MainActivity
 
             // Kết thúc SplashActivity để người dùng không thể quay lại
             finish();

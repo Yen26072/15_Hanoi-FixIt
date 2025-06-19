@@ -1,6 +1,7 @@
 package com.example.hanoi_fixlt.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -75,7 +76,15 @@ public class Login extends AppCompatActivity {
                                     if (user != null && user.getPasswordHash().equals(passwordHash)) {//so sánh passwordHash nhập từ người dùng trùng khớp với passwordHash đã lưu trong Firebase
                                         Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                                         txtError.setVisibility(View.GONE);
+                                        // Gửi broadcast thông báo trạng thái thay đổi
+                                        sendBroadcast(new Intent("LOGIN_STATE_CHANGED"));
                                         // Chuyển sang màn hình Trang chủ đã đăng nhập
+                                        Intent intent = new Intent(Login.this, MainActivity.class);
+                                        intent.putExtra("tabToOpen", 0); // 0 là vị trí tab "Trang chủ"
+                                        intent.putExtra("REFRESH_NEEDED", true);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish(); // Đóng màn login
                                         return;
                                     }
                                 }
