@@ -36,10 +36,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Date;
 import java.util.UUID;
@@ -322,11 +324,13 @@ public class ReportFragmentLoggedIn extends Fragment {
         String description = edtDescription.getText().toString();
 
         String fakeImageUrl = "https://placehold.co/400x300?text=Fake+Image";
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss 'ngày' dd/MM/yyyy", new Locale("vi", "VN"));
+        String formattedDate = sdf.format(new Date());
 
         Map<String, Object> imageData = new HashMap<>();
         imageData.put("ReportId", reportId);
         imageData.put("ImageUrl", fakeImageUrl);
-        imageData.put("UploadedAt", new Date().toString());
+        imageData.put("UploadedAt", formattedDate);
         imageRef.child(imageId).setValue(imageData);
 
         Map<String, Object> reportData = new HashMap<>();
@@ -338,7 +342,7 @@ public class ReportFragmentLoggedIn extends Fragment {
         reportData.put("AddressDetail", addressDetail);
         reportData.put("UserId", userId);
         reportData.put("Status", "Submitted");
-        reportData.put("SubmittedAt", new Date().toString());
+        reportData.put("SubmittedAt", formattedDate);
         reportRef.child(reportId).setValue(reportData);
 
         Toast.makeText(getContext(), "Đã gửi báo cáo với ảnh giả lập", Toast.LENGTH_SHORT).show();
