@@ -2,4 +2,13 @@
     <string name="app_name">Hanoi-Fixlt</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loaisuco_danhmuc">Loại sự cố/Danh mục:</string>
+    <string-array name="spinner_IssueCategories">
+        <item>Giao thông</item>
+        <item>Chiếu sáng</item>
+        <item>Cây xanh</item>
+        <item>Thoát nước</item>
+        <item>Vệ sinh môi trường</item>
+        <item>Cấp nước</item>
+    </string-array>
 </resources>

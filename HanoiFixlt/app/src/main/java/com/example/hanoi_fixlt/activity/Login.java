@@ -1,7 +1,10 @@
 package com.example.hanoi_fixlt.activity;
 
 
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.hanoi_fixlt.R;
 import com.example.hanoi_fixlt.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -74,15 +78,20 @@ public class Login extends AppCompatActivity {
                                 for (DataSnapshot userSnap : snapshot.getChildren()) {//Firebase có thể trả về nhiều user (dù thường chỉ 1), dòng này sẽ duyệt qua từng bản ghi user trong snapshot.
                                     User user = userSnap.getValue(User.class);//Ép kiểu từng bản ghi Firebase thành một đối tượng User theo model đã định nghĩa
                                     if (user != null && user.getPasswordHash().equals(passwordHash)) {//so sánh passwordHash nhập từ người dùng trùng khớp với passwordHash đã lưu trong Firebase
-                                        Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                                         txtError.setVisibility(View.GONE);
-                                        // Gửi broadcast thông báo trạng thái thay đổi
-                                        sendBroadcast(new Intent("LOGIN_STATE_CHANGED"));
-                                        // Chuyển sang màn hình Trang chủ đã đăng nhập
+                                        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = prefs.edit();
+                                        editor.putBoolean("isLoggedIn", true);
+                                        editor.putString("userPhone", phone); // nếu cần
+                                        editor.apply();
+                                        String userId = userSnap.getKey(); // 🔍 ID tự sinh trong Firebase
+                                        SharedPreferences prefs1 = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor1 = prefs1.edit();
+                                        editor1.putString("userId", userId); // ✔ lưu đúng ID
+                                        editor1.apply();
                                         Intent intent = new Intent(Login.this, MainActivity.class);
-                                        intent.putExtra("tabToOpen", 0); // 0 là vị trí tab "Trang chủ"
-                                        intent.putExtra("REFRESH_NEEDED", true);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
                                         startActivity(intent);
                                         finish(); // Đóng màn login
                                         return;
