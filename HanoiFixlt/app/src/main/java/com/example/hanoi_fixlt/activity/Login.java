@@ -85,14 +85,54 @@ public class Login extends AppCompatActivity {
                                         editor.putBoolean("isLoggedIn", true);
                                         editor.putString("userPhone", phone); // nếu cần
                                         editor.apply();
-                                        String userId = userSnap.getKey(); // 🔍 ID tự sinh trong Firebase
+                                        String userId = user.getUserId(); // 🔍 ID tự sinh trong Firebase
                                         SharedPreferences prefs1 = getSharedPreferences("user_prefs", MODE_PRIVATE);
                                         SharedPreferences.Editor editor1 = prefs1.edit();
                                         editor1.putString("userId", userId); // ✔ lưu đúng ID
                                         editor1.apply();
-                                        Intent intent = new Intent(Login.this, MainActivity.class);
 
-                                        startActivity(intent);
+                                        DatabaseReference roleRef = FirebaseDatabase.getInstance().getReference("UserRoles");
+                                        roleRef.orderByChild("UserId").equalTo(userId)
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot roleSnapshot) {
+                                                        if (roleSnapshot.exists()) {
+                                                            for (DataSnapshot roleItem : roleSnapshot.getChildren()) {
+                                                                String roleId = roleItem.child("RoleId").getValue(String.class);
+
+                                                                DatabaseReference roleNameRef = FirebaseDatabase.getInstance().getReference("Roles").child(roleId);
+                                                                roleNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot roleNameSnap) {
+                                                                        String roleName = roleNameSnap.child("RoleName").getValue(String.class);
+                                                                        Intent intent;
+                                                                        if ("Admin".equals(roleName)) {
+                                                                            intent = new Intent(Login.this, AdminActivity.class);
+                                                                        } else {
+                                                                            intent = new Intent(Login.this, MainActivity.class);
+                                                                        }
+
+                                                                        startActivity(intent);
+                                                                        finish();
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError error) {
+                                                                        Toast.makeText(Login.this, "Lỗi truy xuất vai trò", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                });
+                                                            }
+                                                        } else {
+                                                            Toast.makeText(Login.this, "Không tìm thấy vai trò người dùng", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+                                                        Toast.makeText(Login.this, "Lỗi truy xuất dữ liệu vai trò", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+
                                         finish(); // Đóng màn login
                                         return;
                                     }
