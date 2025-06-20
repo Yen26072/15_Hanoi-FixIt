@@ -8,17 +8,17 @@ tools:context=".fragment.ReportFragmentGuest">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="16dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -44,7 +44,7 @@ tools:context=".fragment.ReportFragmentGuest">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
@@ -57,7 +57,7 @@ tools:context=".fragment.ReportFragmentGuest">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -67,6 +67,7 @@ tools:context=".fragment.ReportFragmentGuest">
                         android:paddingStart="16dp"
                         android:paddingEnd="36dp"
                         android:spinnerMode="dropdown"
+                        android:layout_marginTop="20dp"
                         android:popupBackground="#FFFFFF"
                         android:layout_width="match_parent"
                         android:layout_height="40dp" />
@@ -91,12 +92,13 @@ tools:context=".fragment.ReportFragmentGuest">
                         android:background="@drawable/edittext_report"
                         android:ems="10"
                         android:inputType="text"
+                        android:hint="Số nhà"
                         android:textSize="14sp"
                         android:textColor="@color/black" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="20dp">
 
                         <ImageView
@@ -122,7 +124,7 @@ tools:context=".fragment.ReportFragmentGuest">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
@@ -148,7 +150,7 @@ tools:context=".fragment.ReportFragmentGuest">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
@@ -161,18 +163,28 @@ tools:context=".fragment.ReportFragmentGuest">
                     android:text="Hình ảnh/Video:" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnSelectImage"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:backgroundTint="@color/white"
                     android:textAllCaps="false"
+                    android:visibility="visible"
                     android:text="Chọn hình ảnh/Video" />
+
+                <ImageView
+                    android:id="@+id/imgReport"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/avatars" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
@@ -197,6 +209,18 @@ tools:context=".fragment.ReportFragmentGuest">
                     android:inputType="phone" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnReport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_edit"
+                android:backgroundTint="@color/blue"
+                android:layout_marginTop="40dp"
+                android:textColor="@color/white"
+                android:layout_gravity="end"
+                android:textAllCaps="false"
+                android:text="Gửi báo cáo" />
         </LinearLayout>
     </ScrollView>
 

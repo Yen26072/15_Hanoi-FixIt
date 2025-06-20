@@ -1,16 +1,23 @@
 package com.example.hanoi_fixlt.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -45,6 +52,11 @@ public class ReportFragmentLoggedIn extends Fragment {
     private List<String> cateList = new ArrayList<>();
     private DatabaseReference databaseRef;
     private DatabaseReference databaseRef2;
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private ImageView imagePreview;
+    private Uri imageUri;
+    private Button btnSelectImage;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -109,6 +121,11 @@ public class ReportFragmentLoggedIn extends Fragment {
         loadDistricts();
         loadCategory();
 
+        btnSelectImage = view.findViewById(R.id.btnSelectImage);
+        imagePreview = view.findViewById(R.id.imgReport);
+
+        btnSelectImage.setOnClickListener(v -> openGallery());
+
         spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -124,6 +141,24 @@ public class ReportFragmentLoggedIn extends Fragment {
 
         return view;
     }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            imagePreview.setImageURI(imageUri);
+            imagePreview.setVisibility(View.VISIBLE);
+            btnSelectImage.setVisibility(View.GONE);
+        }
+    }
+
     //Lắng nghe Firebase, lấy danh sách Quận, thêm vào districtList, rồi cập nhật adapter.
     private void loadDistricts(){
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
