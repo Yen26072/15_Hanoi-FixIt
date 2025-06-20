@@ -1,6 +1,8 @@
 package com.example.hanoi_fixlt.activity;
 
 
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.hanoi_fixlt.R;
 import com.example.hanoi_fixlt.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,6 +85,11 @@ public class Login extends AppCompatActivity {
                                         editor.putBoolean("isLoggedIn", true);
                                         editor.putString("userPhone", phone); // nếu cần
                                         editor.apply();
+                                        String userId = userSnap.getKey(); // 🔍 ID tự sinh trong Firebase
+                                        SharedPreferences prefs1 = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor1 = prefs1.edit();
+                                        editor1.putString("userId", userId); // ✔ lưu đúng ID
+                                        editor1.apply();
                                         Intent intent = new Intent(Login.this, MainActivity.class);
 
                                         startActivity(intent);
