@@ -2,13 +2,30 @@ package com.example.hanoi_fixlt.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.hanoi_fixlt.R;
+import com.example.hanoi_fixlt.model.IsueCategory;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +38,13 @@ public class ReportFragmentLoggedIn extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private Spinner spinnerDistrict, spinnerWard, spinnerCategory;
+    private ArrayAdapter<String> districtAdapter, wardAdapter, cateAdapter;//Adapter kết nối dữ liệu danh sách với giao diện Spinner.
+    private List<String> districtList = new ArrayList<>();//danh sách lưu dữ liệu lấy từ Firebase để hiển thị lên Spinner.
+    private List<String> wardList = new ArrayList<>();
+    private List<String> cateList = new ArrayList<>();
+    private DatabaseReference databaseRef;
+    private DatabaseReference databaseRef2;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -61,6 +85,101 @@ public class ReportFragmentLoggedIn extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_report_loggedin, container, false);
+        View view = inflater.inflate(R.layout.fragment_report_loggedin, container, false);
+
+        spinnerDistrict = view.findViewById(R.id.spinnerDistrict);
+        spinnerWard = view.findViewById(R.id.spinnerWard);
+        spinnerCategory = view.findViewById(R.id.spinnerCategory);
+
+        databaseRef = FirebaseDatabase.getInstance().getReference("DiaChi");
+        databaseRef2 = FirebaseDatabase.getInstance().getReference("IssueCategories");
+
+        districtAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, districtList);
+        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDistrict.setAdapter(districtAdapter);
+
+        wardAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, wardList);
+        wardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWard.setAdapter(wardAdapter);
+
+        cateAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, cateList);
+        cateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategory.setAdapter(cateAdapter);
+
+        loadDistricts();
+        loadCategory();
+
+        spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedDistrict = districtList.get(position);
+                loadWards(selectedDistrict);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        return view;
+    }
+    //Lắng nghe Firebase, lấy danh sách Quận, thêm vào districtList, rồi cập nhật adapter.
+    private void loadDistricts(){
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                districtList.clear();
+                for (DataSnapshot districtSnap : snapshot.getChildren()) {
+                    districtList.add(districtSnap.getKey());
+                }
+                districtAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Lỗi tải Quận", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadCategory(){
+        databaseRef2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                cateList.clear();
+                for (DataSnapshot categorySnap : snapshot.getChildren()) {
+                    String name = categorySnap.child("Name").getValue(String.class);
+                    if (name != null) {
+                        cateList.add(name);
+                    }
+                }
+                cateAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Lỗi tải Danh muc", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadWards(String districtName){
+        databaseRef.child(districtName).child("Phường")
+            .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                wardList.clear();
+                for (DataSnapshot wardSnap : snapshot.getChildren()) {
+                    wardList.add(wardSnap.getKey());
+                }
+                wardAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Lỗi tải Phường", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

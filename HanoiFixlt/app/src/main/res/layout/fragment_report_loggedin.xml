@@ -30,7 +30,7 @@ tools:context=".fragment.ReportFragmentGuest">
                     android:text="@string/loaisuco_danhmuc" />
 
                 <Spinner
-                    android:id="@+id/spinner2"
+                    android:id="@+id/spinnerCategory"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
@@ -62,7 +62,7 @@ tools:context=".fragment.ReportFragmentGuest">
                     android:orientation="vertical">
 
                     <Spinner
-                        android:id="@+id/spinner4"
+                        android:id="@+id/spinnerDistrict"
                         android:background="@drawable/spinner_background"
                         android:paddingStart="16dp"
                         android:paddingEnd="36dp"
@@ -72,7 +72,7 @@ tools:context=".fragment.ReportFragmentGuest">
                         android:layout_height="40dp" />
 
                     <Spinner
-                        android:id="@+id/spinner5"
+                        android:id="@+id/spinnerWard"
                         android:layout_marginTop="20dp"
                         android:background="@drawable/spinner_background"
                         android:paddingStart="16dp"
