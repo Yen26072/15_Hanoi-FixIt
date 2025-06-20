@@ -1,19 +1,11 @@
 package com.example.hanoi_fixlt.activity;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
@@ -36,18 +28,6 @@ public class MainActivity extends AppCompatActivity {
     ViewPager2 viewPager;
     ViewPagerAdapter viewPagerAdapter;
     Button btnRegister, btnLogin;
-    ImageButton imageNotifications, imageAvatar;
-    LinearLayout layoutButton, layoutImage;
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear(); // Xoá toàn bộ dữ liệu
-        editor.commit(); // dùng commit() thay vì apply() để chắc chắn ghi ngay
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,50 +46,27 @@ public class MainActivity extends AppCompatActivity {
 
         btnRegister = findViewById(R.id.btnRegister);
         btnLogin = findViewById(R.id.btnLogin);
-        imageNotifications = findViewById(R.id.imageNotifications);
-        imageAvatar = findViewById(R.id.imageAvatar);
-        layoutButton = findViewById(R.id.layoutButton);
-        layoutImage = findViewById(R.id.layoutImage);
 
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        boolean loggedIn = prefs.getBoolean("isLoggedIn", false);
-
-        Log.d("LOGIN_STATE", "isLoggedIn: " + loggedIn);
-
+        viewPager.setAdapter(null);
+        boolean loggedIn = FirebaseAuth.getInstance().getCurrentUser() != null;
         viewPager.setAdapter(new ViewPagerAdapter(this, loggedIn));
+
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            View customTab = LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+            TextView tabText = customTab.findViewById(R.id.tabText);
+
             switch (position) {
-                case 0:
-                    tab.setText("Trang chủ");
-                    break;
-                case 1:
-                    tab.setText("Gửi báo cáo");
-                    break;
-                case 2:
-                    tab.setText("Tra cứu");
-                    break;
-                case 3:
-                    tab.setText("Bản đồ");
-                    break;
+                case 0: tabText.setText("Trang chủ"); break;
+                case 1: tabText.setText("Gửi báo cáo"); break;
+                case 2: tabText.setText("Tra cứu"); break;
+                case 3: tabText.setText("Bản đồ"); break;
             }
+
+            tab.setCustomView(customTab);
         }).attach();
 
-        if(loggedIn){
-            layoutButton.setVisibility(GONE);
-            btnRegister.setVisibility(GONE);
-            btnLogin.setVisibility(GONE);
-            layoutImage.setVisibility(VISIBLE);
-            imageNotifications.setVisibility(VISIBLE);
-            imageAvatar.setVisibility(VISIBLE);
-        }
-        else{
-            layoutButton.setVisibility(VISIBLE);
-            btnRegister.setVisibility(VISIBLE);
-            btnLogin.setVisibility(VISIBLE);
-            layoutImage.setVisibility(GONE);
-            imageNotifications.setVisibility(GONE);
-            imageAvatar.setVisibility(GONE);
-        }
+        int tabToOpen = getIntent().getIntExtra("tabToOpen", 0);
+        viewPager.setCurrentItem(tabToOpen, false);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,5 +82,31 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+//        viewPager.setAdapter(new ViewPagerAdapter(this, isLoggedIn()));
+//        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+//
+//            tab.setText(getTabTitle(position)); // tiêu đề không đổi
+//        }).attach();
+    }
+
+    private void refreshViewPager() {
+        boolean loggedIn = FirebaseAuth.getInstance().getCurrentUser() != null;
+        viewPager.setAdapter(new ViewPagerAdapter(this, loggedIn));
+
+        // Giữ nguyên vị trí tab hiện tại
+        int currentItem = viewPager.getCurrentItem();
+        viewPager.setCurrentItem(currentItem, false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && data != null) {
+            if (data.getBooleanExtra("REFRESH_NEEDED", false)) {
+                refreshViewPager();
+            }
+        }
     }
 }
