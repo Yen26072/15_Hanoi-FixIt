@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Hình nền màu xám -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#E0E0E0"/> <!-- Màu xám nhạt -->
+            <corners android:radius="8dp"/> <!-- Bo góc nhẹ -->
+        </shape>
+    </item>
+    <!-- Text "No Image" ở giữa (tùy chọn) -->
+    <item>
+        <bitmap
+            android:src="@drawable/ic_image_placeholder"
+        android:gravity="center"
+        android:tint="#888888" />
+    </item>
+</layer-list>

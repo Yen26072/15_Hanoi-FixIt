@@ -12,6 +12,7 @@ import android.widget.Toast; // For showing Toast messages on item click
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.hanoi_fixlt.R;
 import com.example.hanoi_fixlt.model.IncidentReport;
 
@@ -51,7 +52,7 @@ public class IncidentReportAdapter extends RecyclerView.Adapter<IncidentReportAd
             holder.tvIncidentStatus.setTextColor(Color.parseColor("#008000")); // Green for "Đã xử lý"
         } else {
             holder.tvIncidentStatus.setTextColor(Color.parseColor("#FF0000")); // Red for "Chưa xử lý"
-        }/
+        }
 
         // Load the incident image using Glide
         if (report.getImageUrl() != null && !report.getImageUrl().isEmpty()) {

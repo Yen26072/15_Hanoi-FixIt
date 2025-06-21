@@ -114,7 +114,7 @@
                 android:layout_marginBottom="16dp" />
 
             <LinearLayout
-                android:id="@+id/capNuocSection"
+                android:id="@+id/chieuSangSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -148,7 +148,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/incidentRecyclerViewCapNuoc"
+                android:id="@+id/incidentRecyclerViewChieuSang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -161,7 +161,7 @@
                 android:layout_marginBottom="16dp" />
 
             <LinearLayout
-                android:id="@+id/capNuocSection"
+                android:id="@+id/thoatNuocSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -195,7 +195,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/incidentRecyclerViewCapNuoc"
+                android:id="@+id/incidentRecyclerViewThoatNuoc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -208,7 +208,7 @@
                 android:layout_marginBottom="16dp" />
 
             <LinearLayout
-                android:id="@+id/capNuocSection"
+                android:id="@+id/giaoThongSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -225,13 +225,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Cấp nước"
+                    android:text="Giao Thông"
                     android:textColor="#212121"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvXemThemCapNuoc"
+                    android:id="@+id/tvXemThemGiaoThong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -242,7 +242,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/incidentRecyclerViewCapNuoc"
+                android:id="@+id/incidentRecyclerViewGiaoThong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
