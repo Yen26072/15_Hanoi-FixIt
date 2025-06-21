@@ -135,6 +135,14 @@ public class Register extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(Register.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+                        DatabaseReference userRolesRef = FirebaseDatabase.getInstance().getReference("UserRoles");
+                        String roleAssignmentId = userRolesRef.push().getKey();
+
+                        Map<String, Object> userRole = new HashMap<>();
+                        userRole.put("UserId", user.getUserId());
+                        userRole.put("RoleId", "role_003");
+
+                        userRolesRef.child(roleAssignmentId).setValue(userRole);
                         startActivity(new Intent(Register.this, Login.class));
                         finish();
                     } else {
