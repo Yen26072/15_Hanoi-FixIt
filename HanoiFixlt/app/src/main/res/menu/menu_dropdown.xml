@@ -1,0 +1,6 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/item1" android:title="Thông tin tài khoản" />
+    <item android:id="@+id/item2" android:title="Báo cáo đã gửi" />
+    <item android:id="@+id/item3" android:title="Đổi mật khẩu" />
+    <item android:id="@+id/item4" android:title="Đăng xuất" />
+</menu>
