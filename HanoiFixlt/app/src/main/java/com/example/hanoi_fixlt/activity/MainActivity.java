@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -123,6 +124,36 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
+            }
+        });
+
+        imageAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(MainActivity.this, v);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_dropdown, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(item -> {
+                    int id = item.getItemId();
+
+                    if (id == R.id.item1) {
+                        Intent intent = new Intent(MainActivity.this, AppCompatActivity.class);
+                        startActivity(intent);
+                        return true;
+                    } else if (id == R.id.item2) {
+                        Intent intent = new Intent(MainActivity.this, Myreport.class);
+                        startActivity(intent);
+                        return true;
+                    } else if (id == R.id.item3) {
+                        Intent intent = new Intent(MainActivity.this, Changepassword.class);
+                        startActivity(intent);
+                        return true;
+                    } else if (id == R.id.item3) {
+                        // Xử lý item2
+                        return true;
+                    }
+                    return false;
+                });
+                popupMenu.show();
             }
         });
     }

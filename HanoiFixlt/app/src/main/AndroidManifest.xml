@@ -16,6 +16,12 @@
         android:theme="@style/Theme.HanoiFixlt"
         tools:targetApi="31">
         <activity
+            android:name=".activity.Myreport"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Accountinformation"
+            android:exported="false" />
+        <activity
             android:name=".activity.AdminActivity"
             android:exported="false" />
         <activity
