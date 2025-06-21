@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     int id = item.getItemId();
 
                     if (id == R.id.item1) {
-                        Intent intent = new Intent(MainActivity.this, AppCompatActivity.class);
+                        Intent intent = new Intent(MainActivity.this, Accountinformation.class);
                         startActivity(intent);
                         return true;
                     } else if (id == R.id.item2) {
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, Changepassword.class);
                         startActivity(intent);
                         return true;
-                    } else if (id == R.id.item3) {
+                    } else if (id == R.id.item4) {
                         // Xử lý item2
                         return true;
                     }

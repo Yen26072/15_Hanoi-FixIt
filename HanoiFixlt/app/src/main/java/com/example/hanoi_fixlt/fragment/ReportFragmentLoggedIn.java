@@ -324,7 +324,7 @@ public class ReportFragmentLoggedIn extends Fragment {
         String description = edtDescription.getText().toString();
 
         String fakeImageUrl = "https://placehold.co/400x300?text=Fake+Image";
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss 'ngày' dd/MM/yyyy", new Locale("vi", "VN"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", new Locale("vi", "VN"));
         String formattedDate = sdf.format(new Date());
 
         Map<String, Object> imageData = new HashMap<>();

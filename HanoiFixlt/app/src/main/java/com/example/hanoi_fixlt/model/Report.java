@@ -1,142 +1,140 @@
 package com.example.hanoi_fixlt.model;
 
-import java.time.LocalDateTime;
-
 public class Report {
-    private int reportId; // ID báo cáo (PK, INT, IDENTITY)
-    private String userId; // ID người gửi (FK -> User)
-    private String categoryId; // ID danh mục (FK -> IssueCategory)
-    private String description; // Mô tả chi tiết (NOT NULL)
-    private Double latitude; // Vĩ độ (NULL nếu không có)
-    private Double longitude; // Kinh độ (NULL nếu không có)
-    private String addressDetail; // Địa chỉ chi tiết (NULL nếu không có)
-    private String district; // Quận
-    private String ward; // Phường
-    private String status; // Trạng thái báo cáo
-    private LocalDateTime submittedAt; // Thời gian gửi báo cáo
-    private LocalDateTime lastUpdatedAt; // Thời gian cập nhật cuối
-    private int upvoteCount; // Số lượng upvote (DEFAULT 0)
+    private String ReportId; // ID báo cáo (PK, INT, IDENTITY)
+    private String UserId; // ID người gửi (FK -> User)
+    private String CategoryId; // ID danh mục (FK -> IssueCategory)
+    private String Description; // Mô tả chi tiết (NOT NULL)
+    private Double Latitude; // Vĩ độ (NULL nếu không có)
+    private Double Longitude; // Kinh độ (NULL nếu không có)
+    private String AddressDetail; // Địa chỉ chi tiết (NULL nếu không có)
+    private String District; // Quận
+    private String Ward; // Phường
+    private String Status; // Trạng thái báo cáo
+    private String SubmittedAt; // Thời gian gửi báo cáo
+    private String LastUpdatedAt; // Thời gian cập nhật cuối
+    private Integer UpvoteCount; // Số lượng upvote (DEFAULT 0)
 
     public Report() {
     }
 
-    public int getReportId() {
-        return reportId;
+    public String getReportId() {
+        return ReportId;
     }
 
-    public void setReportId(int reportId) {
-        this.reportId = reportId;
+    public void setReportId(String reportId) {
+        ReportId = reportId;
     }
 
     public String getUserId() {
-        return userId;
+        return UserId;
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        UserId = userId;
     }
 
     public String getCategoryId() {
-        return categoryId;
+        return CategoryId;
     }
 
     public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+        CategoryId = categoryId;
     }
 
     public String getDescription() {
-        return description;
+        return Description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        Description = description;
     }
 
     public Double getLatitude() {
-        return latitude;
+        return Latitude;
     }
 
     public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+        Latitude = latitude;
     }
 
     public Double getLongitude() {
-        return longitude;
+        return Longitude;
     }
 
     public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+        Longitude = longitude;
     }
 
     public String getAddressDetail() {
-        return addressDetail;
+        return AddressDetail;
     }
 
     public void setAddressDetail(String addressDetail) {
-        this.addressDetail = addressDetail;
+        AddressDetail = addressDetail;
     }
 
     public String getDistrict() {
-        return district;
+        return District;
     }
 
     public void setDistrict(String district) {
-        this.district = district;
+        District = district;
     }
 
     public String getWard() {
-        return ward;
+        return Ward;
     }
 
     public void setWard(String ward) {
-        this.ward = ward;
+        Ward = ward;
     }
 
     public String getStatus() {
-        return status;
+        return Status;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        Status = status;
     }
 
-    public LocalDateTime getSubmittedAt() {
-        return submittedAt;
+    public String getSubmittedAt() {
+        return SubmittedAt;
     }
 
-    public void setSubmittedAt(LocalDateTime submittedAt) {
-        this.submittedAt = submittedAt;
+    public void setSubmittedAt(String submittedAt) {
+        SubmittedAt = submittedAt;
     }
 
-    public LocalDateTime getLastUpdatedAt() {
-        return lastUpdatedAt;
+    public String getLastUpdatedAt() {
+        return LastUpdatedAt;
     }
 
-    public void setLastUpdatedAt(LocalDateTime lastUpdatedAt) {
-        this.lastUpdatedAt = lastUpdatedAt;
+    public void setLastUpdatedAt(String lastUpdatedAt) {
+        LastUpdatedAt = lastUpdatedAt;
     }
 
-    public int getUpvoteCount() {
-        return upvoteCount;
+    public Integer getUpvoteCount() {
+        return UpvoteCount;
     }
 
     public void setUpvoteCount(int upvoteCount) {
-        this.upvoteCount = upvoteCount;
+        UpvoteCount = upvoteCount;
     }
 
-    public Report(int reportId, String userId, String categoryId, String description, Double latitude, Double longitude, String addressDetail, String district, String ward, String status, LocalDateTime submittedAt, LocalDateTime lastUpdatedAt, int upvoteCount) {
-        this.reportId = reportId;
-        this.userId = userId;
-        this.categoryId = categoryId;
-        this.description = description;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.addressDetail = addressDetail;
-        this.district = district;
-        this.ward = ward;
-        this.status = status;
-        this.submittedAt = submittedAt;
-        this.lastUpdatedAt = lastUpdatedAt;
-        this.upvoteCount = upvoteCount;
+    public Report(String reportId, String userId, String categoryId, String description, Double latitude, Double longitude, String addressDetail, String district, String ward, String status, String submittedAt, String lastUpdatedAt, Integer upvoteCount) {
+        ReportId = reportId;
+        UserId = userId;
+        CategoryId = categoryId;
+        Description = description;
+        Latitude = latitude;
+        Longitude = longitude;
+        AddressDetail = addressDetail;
+        District = district;
+        Ward = ward;
+        Status = status;
+        SubmittedAt = submittedAt;
+        LastUpdatedAt = lastUpdatedAt;
+        UpvoteCount = upvoteCount;
     }
 }
