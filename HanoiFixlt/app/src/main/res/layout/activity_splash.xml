@@ -8,15 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@android:color/white"
-    tools:context=".activity.SplashActivity"> <!-- Thay thế bằng tên Activity của bạn -->
-
-    <!-- Logo của ứng dụng -->
-    <!-- Bạn cần đặt file logo của mình vào thư mục drawable, ví dụ: logo_hanoi_fixit.png -->
-    <!-- Hoặc sử dụng placeholder đã tạo trước đó: ic_hanoi_fixit_logo_placeholder.xml -->
-
-    <!-- Tên ứng dụng -->
-
-    <!-- Chỉ báo tải (Loading Spinner) -->
+    tools:context=".activity.SplashActivity">
 
     <ImageView
         android:id="@+id/imageView"

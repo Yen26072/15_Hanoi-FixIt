@@ -20,6 +20,10 @@ public class SplashActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.activity_splash); // Đặt layout cho Activity này
 
+        if (getSupportActionBar() != null) {
+             getSupportActionBar().hide();
+        }
+
         // Sử dụng Handler để trì hoãn việc chuyển sang MainActivity
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             // Tạo Intent để chuyển sang MainActivity
