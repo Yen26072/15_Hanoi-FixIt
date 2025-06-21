@@ -5,4 +5,9 @@
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">8dp</item>
     </style>
+
+    <style name="AppTheme"
+        parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
 </resources>
