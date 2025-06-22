@@ -320,43 +320,11 @@ public class ReportFragmentLoggedIn extends Fragment {
         imagePreview.setVisibility(View.GONE);
         scrollView.fullScroll(ScrollView.FOCUS_UP);
 
-
         Toast.makeText(getContext(), "Đã gửi báo cáo với ảnh giả lập", Toast.LENGTH_SHORT).show();
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            if (!isAdded() || requireActivity().isFinishing()) {
-                Log.w("Dialog", "Fragment/Activity không còn hiển thị, không show dialog.");
-                return;
-            }
-
-            Dialog dialog = new Dialog(requireActivity());
-            dialog.setContentView(R.layout.dialog_custom);
-            dialog.setCanceledOnTouchOutside(false);
-
-            // Làm mờ nền phía sau
-            Window window = dialog.getWindow();
-            if (window != null) {
-                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-                WindowManager.LayoutParams params = window.getAttributes();
-                params.dimAmount = 0.5f; // độ mờ nền
-                window.setAttributes(params);
-            }
-
-            Button btnClose = dialog.findViewById(R.id.btnClose);
-            btnClose.setOnClickListener(v -> {
-                dialog.dismiss();
-
-                // Chỉ thông báo cập nhật dữ liệu sau khi dialog đóng
-                new ViewModelProvider(requireActivity())
-                        .get(SharedViewModel.class)
-                        .notifyDataChanged();
-            });
-
-            Log.d("Dialog", "Hiển thị dialog thành công");
-            dialog.show();
-
-        }, 300); // Delay 300ms để UI ổn định
+        new ViewModelProvider(requireActivity())
+                .get(SharedViewModel.class)
+                .notifyDataChanged();
     }
 
 }
