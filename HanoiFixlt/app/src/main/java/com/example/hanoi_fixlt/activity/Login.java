@@ -48,6 +48,10 @@ public class Login extends AppCompatActivity {
             return insets;
         });
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         edtPhone = findViewById(R.id.edtPhoneLogin);
         edtPass = findViewById(R.id.edtPasswordLogin);
         btnLogin = findViewById(R.id.btnLoginLogin);

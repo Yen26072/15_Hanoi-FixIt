@@ -1,6 +1,7 @@
 package com.example.hanoi_fixlt.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hanoi_fixlt.R;
+import com.example.hanoi_fixlt.activity.AllReports;
 import com.example.hanoi_fixlt.adapter.ReportAdapter;
 import com.example.hanoi_fixlt.model.GroupedReport;
 
@@ -50,7 +52,10 @@ public class ReportGroupAdapter extends RecyclerView.Adapter<ReportGroupAdapter.
 
 
         holder.txtViewMore.setOnClickListener(v -> {
-            // TODO: mở danh sách đầy đủ nếu cần
+            Intent intent = new Intent(context, AllReports.class);
+            intent.putExtra("categoryId", group.getCategoryId());
+            intent.putExtra("categoryName", group.getCategoryName());
+            context.startActivity(intent);
         });
     }
 

@@ -32,6 +32,10 @@ public class Accountinformation extends AppCompatActivity {
             return insets;
         });
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         btnRegister = findViewById(R.id.btnReport);
         btnLogin = findViewById(R.id.btnLogin);
         imageNotifications = findViewById(R.id.imageNotifications);
