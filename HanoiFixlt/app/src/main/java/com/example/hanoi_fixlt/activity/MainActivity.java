@@ -76,8 +76,19 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         boolean loggedIn = prefs.getBoolean("isLoggedIn", false);
+        String role = prefs.getString("rolename", "");
 
-        Log.d("LOGIN_STATE", "isLoggedIn: " + loggedIn);
+        if (loggedIn) {
+            if ("Admin".equals(role)) {
+                // Chuyển sang trang dành cho Admin
+                Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        }
+
+        Log.d("DEBUG_LOGIN", "MainActivity isLoggedIn = " + loggedIn + ", Role = " + role);
 
         viewPager.setAdapter(new ViewPagerAdapter(this, loggedIn));
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {

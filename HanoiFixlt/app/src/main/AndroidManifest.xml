@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HanoiFixlt">
         <activity
+            android:name=".activity.ReportDetail"
+            android:exported="false" />
+        <activity
             android:name=".activity.AllReports"
             android:exported="false" />
         <activity
@@ -49,20 +52,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.IncidentListActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.Login"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true"
-            android:label="">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
