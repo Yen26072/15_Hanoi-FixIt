@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -21,11 +22,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.hanoi_fixlt.R;
 import com.example.hanoi_fixlt.model.IsueCategory;
+import com.example.hanoi_fixlt.viewmodel.SharedViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -73,6 +76,7 @@ public class ReportFragmentLoggedIn extends Fragment {
     private Uri imageUri;
     private Button btnSelectImage, btnReport;
     private EditText edtDescription, edtAddressDetail;
+    private ScrollView scrollView;
 
     private StorageReference storageRef;
     private Map<String, String> categoryNameToIdMap = new HashMap<>();
@@ -127,6 +131,7 @@ public class ReportFragmentLoggedIn extends Fragment {
         btnReport = view.findViewById(R.id.btnReport);
         edtDescription = view.findViewById(R.id.edtDes);
         edtAddressDetail = view.findViewById(R.id.edtAddress);
+        scrollView = view.findViewById(R.id.scrollViewReport);
 
         databaseRef = FirebaseDatabase.getInstance().getReference("DiaChi");
         categoryRef = FirebaseDatabase.getInstance().getReference("IssueCategories");
@@ -194,56 +199,6 @@ public class ReportFragmentLoggedIn extends Fragment {
             imagePreview.setVisibility(View.VISIBLE);
             btnSelectImage.setVisibility(View.GONE);
         }
-    }
-
-    private void submitReportAndImage(Uri imageUri) {
-        String reportId = reportRef.push().getKey();
-        String imageId = imageRef.push().getKey();
-
-        String selectedCategoryName = spinnerCategory.getSelectedItem().toString();
-        String categoryId = categoryNameToIdMap.get(selectedCategoryName);
-        String district = spinnerDistrict.getSelectedItem().toString();
-        String ward = spinnerWard.getSelectedItem().toString();
-        String description = edtDescription.getText().toString();
-        String addressDetail = edtAddressDetail.getText().toString();
-
-        //if (reportId == null || imageId == null || categoryId == null) return;
-
-        //StorageReference fileRef = storageRef.child(imageId + ".jpg");
-
-//        fileRef.putFile(imageUri).continueWithTask(task -> {
-//            if (!task.isSuccessful()) throw task.getException();
-//            return fileRef.getDownloadUrl();
-//        }).addOnSuccessListener(downloadUri -> {
-//            String imageUrl = downloadUri.toString();
-
-        // Save Report
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Map<String, Object> reportData = new HashMap<>();
-        reportData.put("ReportId", reportId);
-        reportData.put("CategoryId", categoryId);
-        reportData.put("District", district);
-        reportData.put("Ward", ward);
-        reportData.put("Description", description);
-        reportData.put("AddressDetail", addressDetail);
-        reportData.put("UserId", userId);
-        reportData.put("Status", "Submitted");
-        reportData.put("SubmittedAt", new Date().toString());
-
-        reportRef.child(reportId).setValue(reportData)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(getContext(), "Tạo báo cáo thành công", Toast.LENGTH_SHORT).show();
-
-                    // Save Report Image
-                    Map<String, Object> imageData = new HashMap<>();
-                    imageData.put("ImageUrl", "https://i.postimg.cc/KzD1J4Qd/n-ng-1.jpg");
-                    imageData.put("ReportId", reportId);
-                    imageData.put("UploadedAt", new Date().toString());
-
-                    imageRef.child(imageId).setValue(imageData).addOnSuccessListener(aVoid2 -> Toast.makeText(getContext(), "Tạo ảnh thành công", Toast.LENGTH_SHORT).show())
-                            .addOnFailureListener(e -> Toast.makeText(getContext(), "Tạo ảnh lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                })
-                .addOnFailureListener(e -> Toast.makeText(getContext(), "Tạo báo cáo lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     //Lắng nghe Firebase, lấy danh sách Quận, thêm vào districtList, rồi cập nhật adapter.
@@ -338,14 +293,32 @@ public class ReportFragmentLoggedIn extends Fragment {
         reportData.put("CategoryId", categoryId);
         reportData.put("District", district);
         reportData.put("Ward", ward);
+        reportData.put("Latitude", 0.0);
+        reportData.put("Longitude", 0.0);
+        reportData.put("UpvoteCount", 0);
         reportData.put("Description", description);
         reportData.put("AddressDetail", addressDetail);
         reportData.put("UserId", userId);
         reportData.put("Status", "Submitted");
         reportData.put("SubmittedAt", formattedDate);
+        reportData.put("LastUpdatedAt", formattedDate);
         reportRef.child(reportId).setValue(reportData);
 
+        edtAddressDetail.setText("");
+        edtDescription.setText("");
+        spinnerDistrict.setSelection(0);
+        spinnerWard.setSelection(0);
+        spinnerCategory.setSelection(0);
+        btnSelectImage.setVisibility(View.VISIBLE);
+        imagePreview.setVisibility(View.GONE);
+        scrollView.fullScroll(ScrollView.FOCUS_UP);
+
+
         Toast.makeText(getContext(), "Đã gửi báo cáo với ảnh giả lập", Toast.LENGTH_SHORT).show();
+
+        new ViewModelProvider(requireActivity())
+                .get(SharedViewModel.class)
+                .notifyDataChanged();
     }
 
     private String getUserIdFromPrefs() {

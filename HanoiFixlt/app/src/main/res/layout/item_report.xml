@@ -20,7 +20,7 @@
             android:src="@drawable/placeholder_rounded" />
 
         <LinearLayout
-            android:padding="12dp"
+            android:padding="9dp"
             android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -31,9 +31,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Số 123 ABC"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textStyle="bold"
                 android:textColor="#222222"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/txtDescription"
@@ -41,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="Nội dung báo cáo"
                 android:textColor="#444444"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_marginTop="2dp"
                 android:textSize="12sp" />

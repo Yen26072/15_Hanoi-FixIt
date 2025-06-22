@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import com.example.hanoi_fixlt.R;
 import com.example.hanoi_fixlt.adapter.ReportGroupAdapter;
 import com.example.hanoi_fixlt.model.GroupedReport;
 import com.example.hanoi_fixlt.model.Report;
+import com.example.hanoi_fixlt.viewmodel.SharedViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +49,16 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ReportGroupAdapter(getContext(), groupedReportList, categoryIconMap);
         recyclerView.setAdapter(adapter);
+
+        new ViewModelProvider(requireActivity())
+                .get(SharedViewModel.class)
+                .getDataChanged()
+                .observe(getViewLifecycleOwner(), changed -> {
+                    if (changed) {
+                        loadCategoriesAndReports(); // Gọi lại dữ liệu
+                    }
+                });
+
 
         reportsRef = FirebaseDatabase.getInstance().getReference("Reports");
         categoriesRef = FirebaseDatabase.getInstance().getReference("IssueCategories");
