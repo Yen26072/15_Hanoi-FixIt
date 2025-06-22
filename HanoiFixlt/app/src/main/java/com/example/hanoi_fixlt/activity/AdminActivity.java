@@ -42,6 +42,10 @@ public class AdminActivity extends AppCompatActivity {
             return insets;
         });
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 

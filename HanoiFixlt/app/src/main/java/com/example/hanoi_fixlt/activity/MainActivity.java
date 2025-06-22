@@ -58,9 +58,11 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-
-
         });
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     int id = item.getItemId();
 
                     if (id == R.id.item1) {
-                        Intent intent = new Intent(MainActivity.this, AppCompatActivity.class);
+                        Intent intent = new Intent(MainActivity.this, Accountinformation.class);
                         startActivity(intent);
                         return true;
                     } else if (id == R.id.item2) {
@@ -147,8 +149,20 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, Changepassword.class);
                         startActivity(intent);
                         return true;
-                    } else if (id == R.id.item3) {
-                        // Xử lý item2
+                    } else if (id == R.id.item4) {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.clear(); // hoặc remove("isLoggedIn") nếu chỉ muốn xóa 1 mục
+                        editor.apply();
+                        layoutButton.setVisibility(VISIBLE);
+                        btnRegister.setVisibility(VISIBLE);
+                        btnLogin.setVisibility(VISIBLE);
+                        layoutImage.setVisibility(GONE);
+                        imageNotifications.setVisibility(GONE);
+                        imageAvatar.setVisibility(GONE);
+                        viewPager.setCurrentItem(0, false);
+                        // Reset adapter (nếu tab Gửi báo cáo dùng adapter khác nhau)
+                        viewPager.setAdapter(new ViewPagerAdapter(MainActivity.this, false));
+
                         return true;
                     }
                     return false;

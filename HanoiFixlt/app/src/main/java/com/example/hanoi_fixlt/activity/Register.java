@@ -40,6 +40,10 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         edtFullName = findViewById(R.id.edtNameRegister);
         edtPhone = findViewById(R.id.edtPhoneRegister);
         edtPassword = findViewById(R.id.edtPasswordRegister);
