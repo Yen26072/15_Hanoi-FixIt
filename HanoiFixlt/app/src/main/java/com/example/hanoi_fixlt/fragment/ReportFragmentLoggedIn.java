@@ -1,9 +1,12 @@
 package com.example.hanoi_fixlt.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,6 +20,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -315,6 +320,22 @@ public class ReportFragmentLoggedIn extends Fragment {
 
 
         Toast.makeText(getContext(), "Đã gửi báo cáo với ảnh giả lập", Toast.LENGTH_SHORT).show();
+
+        Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.dialog_custom);
+
+// Tắt khi chạm ra ngoài
+        dialog.setCanceledOnTouchOutside(false);
+
+// Làm mờ nền phía sau
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.dimAmount = 0.5f; // độ mờ nền
+            window.setAttributes(params);
+        }
 
         new ViewModelProvider(requireActivity())
                 .get(SharedViewModel.class)
