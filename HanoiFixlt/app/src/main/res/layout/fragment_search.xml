@@ -1,14 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F0F0"
+    android:padding="16dp"
     tools:context=".fragment.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Thanh tìm kiếm -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_search_background"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:gravity="center_vertical"
+        android:elevation="2dp"
+        android:layout_marginBottom="12dp">
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Tiêu đề/Từ khóa trong nội dung"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:background="@android:color/transparent"
+            android:textColorHint="#9E9E9E"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            android:paddingEnd="8dp"/>
+
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_search"
+            android:contentDescription="Tìm kiếm"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="#616161" />
+
+    </LinearLayout>
+
+    <!-- Nút Tìm kiếm nâng cao -->
+    <Button
+        android:id="@+id/btnAdvancedSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tìm kiếm nâng cao"
+        android:textColor="#4F46E5"
+        android:background="@drawable/button_outline_blue_small"
+        android:src="@drawable/button_outline_blue_small"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:layout_gravity="end"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Placeholder cho trạng thái ban đầu hoặc không có kết quả -->
+    <LinearLayout
+        android:id="@+id/searchResultsPlaceholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:visibility="visible"> <!-- Mặc định hiển thị -->
 
-</FrameLayout>
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@drawable/logo"
+            android:contentDescription="Hanoi FixIt Logo"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bắt đầu tìm kiếm sự cố tại Hà Nội"
+            android:textColor="#616161"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <!-- RecyclerView để hiển thị kết quả tìm kiếm -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResultsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_incident_report" /> <!-- Cần đảm bảo có item_incident_report.xml -->
+
+</LinearLayout>
