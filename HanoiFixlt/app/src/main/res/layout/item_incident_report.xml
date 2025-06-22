@@ -5,30 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginBottom="8dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="12dp"
+        android:background="@android:color/white">
 
-        <!-- Image of the incident -->
+        <!-- Hình ảnh sự cố -->
         <ImageView
-            android:id="@+id/imgIncident"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:id="@+id/incidentImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_incident_image"
-            android:contentDescription="Incident Image"
+            android:src="@drawable/ic_launcher_background"
+            android:contentDescription="Hình ảnh sự cố"
             android:layout_marginEnd="12dp"/>
-        <!-- Placeholder image (create placeholder_incident_image.xml or use a real image) -->
 
-        <!-- Details of the incident (type, location, time, status) -->
+        <!-- Chi tiết sự cố -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,43 +35,59 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvIncidentType"
+                android:id="@+id/incidentTypeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:textColor="#212121"
                 android:textStyle="bold"
-                android:layout_marginBottom="4dp"
-                tools:text="Loại sự cố: Cấp nước"/>
+                android:textColor="#333333"
+                android:layout_marginBottom="2dp"
+                tools:text="Loại sự cố: Hỏng đường" />
 
             <TextView
-                android:id="@+id/tvIncidentLocation"
+                android:id="@+id/incidentLocationTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#424242"
-                android:layout_marginBottom="4dp"
-                tools:text="Địa điểm: 123 Tây Sơn, Trung Liệt, Đống Đa"/>
+                android:textSize="13sp"
+                android:textColor="#616161"
+                android:layout_marginBottom="2dp"
+                tools:text="Địa điểm: 123 Tây Sơn, Trung Liệt, Đống Đa" />
 
             <TextView
-                android:id="@+id/tvIncidentTime"
+                android:id="@+id/incidentTimeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#424242"
-                android:layout_marginBottom="4dp"
-                tools:text="Thời gian: 31/05/2025"/>
+                android:textSize="13sp"
+                android:textColor="#616161"
+                android:layout_marginBottom="2dp"
+                tools:text="Thời gian: 12/04/2023" />
 
             <TextView
-                android:id="@+id/tvIncidentStatus"
+                android:id="@+id/incidentDescriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#FF0000"
-                tools:text="Trạng thái: Chưa xử lý"/>
+                android:textSize="13sp"
+                android:textColor="#616161"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp"
+                tools:text="Nội dung báo cáo: Tuyến đường xuất hiện ổ gà lớn gây nguy hiểm cho người đi đường. Cần sửa chữa ngay." />
+
+            <Button
+                android:id="@+id/btnXemThem"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="Xem thêm"
+                android:textSize="12sp"
+                android:textColor="#4F46E5"
+                android:background="@drawable/button_outline_blue_small"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:layout_gravity="end"
+                android:textStyle="bold"/>
 
         </LinearLayout>
-
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>
