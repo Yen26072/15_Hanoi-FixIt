@@ -20,9 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hanoi_fixlt.R;
-import com.example.hanoi_fixlt.model.IncidentReport; // Đảm bảo đúng import cho model
-import com.example.hanoi_fixlt.adapter.IncidentReportAdapter; // Đảm bảo đúng import cho adapter
-//import com.example.hanoi_fixlt.IncidentListActivity; // Nếu bạn có activity này cho "Xem thêm"
+import com.example.hanoi_fixlt.model.IncidentReport;
+import com.example.hanoi_fixlt.adapter.IncidentReportAdapter;
+//import com.example.hanoi_fixlt.IncidentListActivity; //Xem thêm
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

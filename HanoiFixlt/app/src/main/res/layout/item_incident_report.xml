@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+    <!-- CardView làm nền để tạo hiệu ứng bo góc và đổ bóng -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <!-- ImageView để hiển thị hình ảnh sự cố -->
+        <ImageView
+            android:id="@+id/imgIncident"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_image_placeholder"
+            android:contentDescription="Incident Image"
+            android:layout_marginEnd="12dp"
+            android:background="@android:color/darker_gray"
+            tools:src="@tools:sample/backgrounds/scenic" />
+        <!-- Sử dụng placeholder_incident_image, bạn cần tạo drawable này -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- TextView cho Loại sự cố -->
+            <TextView
+                android:id="@+id/tvIncidentType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginBottom="2dp"
+                tools:text="Loại sự cố: Cấp nước" />
+
+            <!-- TextView cho Địa điểm -->
+            <TextView
+                android:id="@+id/tvIncidentLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginBottom="2dp"
+                tools:text="Địa điểm: Chung cư X, Trung Liệt, Đống Đa" />
+
+            <!-- TextView cho Thời gian -->
+            <TextView
+                android:id="@+id/tvIncidentTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp"
+                tools:text="Thời gian: 05/06/2025" />
+
+            <!-- TextView cho Mô tả sự cố (nếu cần hiển thị) -->
+            <TextView
+                android:id="@+id/tvIncidentDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#555555"
+                android:textSize="13sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp"
+                android:visibility="gone"
+                tools:text="Nội dung báo cáo: Mô tả ngắn gọn về sự cố..." />
+            <!-- Mặc định ẩn, có thể hiển thị tùy vào nhu cầu -->
+
+            <!-- TextView cho Trạng thái -->
+            <TextView
+                android:id="@+id/tvIncidentStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF0000"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginBottom="8dp"
+                tools:text="Trạng thái: Chưa xử lý" />
+
+            <!-- Button "Xem thêm" -->
+            <Button
+                android:id="@+id/btnXemThem"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Xem thêm"
+                android:textSize="12sp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:backgroundTint="#007BFF"
+                android:textColor="@android:color/white"
+                app:cornerRadius="4dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
