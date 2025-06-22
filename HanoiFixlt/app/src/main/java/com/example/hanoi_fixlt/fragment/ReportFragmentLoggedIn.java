@@ -1,9 +1,12 @@
 package com.example.hanoi_fixlt.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -12,11 +15,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,14 +47,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Date;
-import java.util.UUID;
+
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -260,7 +267,7 @@ public class ReportFragmentLoggedIn extends Fragment {
     }
 
     private void submitReportWithFakeImage(Uri imageUri) {
-        SharedPreferences prefs = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         String userId = prefs.getString("userId", null);
         if (userId == null) {
             Toast.makeText(getContext(), "Bạn cần đăng nhập", Toast.LENGTH_SHORT).show();
@@ -313,11 +320,11 @@ public class ReportFragmentLoggedIn extends Fragment {
         imagePreview.setVisibility(View.GONE);
         scrollView.fullScroll(ScrollView.FOCUS_UP);
 
-
         Toast.makeText(getContext(), "Đã gửi báo cáo với ảnh giả lập", Toast.LENGTH_SHORT).show();
 
         new ViewModelProvider(requireActivity())
                 .get(SharedViewModel.class)
                 .notifyDataChanged();
     }
+
 }
