@@ -80,16 +80,13 @@ public class Login extends AppCompatActivity {
                                     if (user != null && user.getPasswordHash().equals(passwordHash)) {//so sánh passwordHash nhập từ người dùng trùng khớp với passwordHash đã lưu trong Firebase
                                         //Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                                         txtError.setVisibility(View.GONE);
+                                        String userId = user.getUserId();
                                         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = prefs.edit();
                                         editor.putBoolean("isLoggedIn", true);
                                         editor.putString("userPhone", phone); // nếu cần
+                                        editor.putString("userId", userId);
                                         editor.apply();
-                                        String userId = user.getUserId(); // 🔍 ID tự sinh trong Firebase
-                                        SharedPreferences prefs1 = getSharedPreferences("user_prefs", MODE_PRIVATE);
-                                        SharedPreferences.Editor editor1 = prefs1.edit();
-                                        editor1.putString("userId", userId); // ✔ lưu đúng ID
-                                        editor1.apply();
 
                                         DatabaseReference roleRef = FirebaseDatabase.getInstance().getReference("UserRoles");
                                         roleRef.orderByChild("UserId").equalTo(userId)

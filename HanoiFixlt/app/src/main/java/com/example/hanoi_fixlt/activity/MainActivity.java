@@ -148,7 +148,19 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         return true;
                     } else if (id == R.id.item4) {
-                        // Xử lý item2
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.clear(); // hoặc remove("isLoggedIn") nếu chỉ muốn xóa 1 mục
+                        editor.apply();
+                        layoutButton.setVisibility(VISIBLE);
+                        btnRegister.setVisibility(VISIBLE);
+                        btnLogin.setVisibility(VISIBLE);
+                        layoutImage.setVisibility(GONE);
+                        imageNotifications.setVisibility(GONE);
+                        imageAvatar.setVisibility(GONE);
+                        viewPager.setCurrentItem(0, false);
+                        // Reset adapter (nếu tab Gửi báo cáo dùng adapter khác nhau)
+                        viewPager.setAdapter(new ViewPagerAdapter(MainActivity.this, false));
+
                         return true;
                     }
                     return false;

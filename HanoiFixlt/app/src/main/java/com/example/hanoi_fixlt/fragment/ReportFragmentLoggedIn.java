@@ -260,7 +260,7 @@ public class ReportFragmentLoggedIn extends Fragment {
     }
 
     private void submitReportWithFakeImage(Uri imageUri) {
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String userId = prefs.getString("userId", null);
         if (userId == null) {
             Toast.makeText(getContext(), "Bạn cần đăng nhập", Toast.LENGTH_SHORT).show();
@@ -319,10 +319,5 @@ public class ReportFragmentLoggedIn extends Fragment {
         new ViewModelProvider(requireActivity())
                 .get(SharedViewModel.class)
                 .notifyDataChanged();
-    }
-
-    private String getUserIdFromPrefs() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        return prefs.getString("userId", null);
     }
 }
