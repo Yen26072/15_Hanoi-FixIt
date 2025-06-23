@@ -1,29 +1,41 @@
 package com.example.hanoi_fixlt.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.util.Log;
 import android.view.inputmethod.EditorInfo; // Import EditorInfo
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hanoi_fixlt.R;
+import com.example.hanoi_fixlt.activity.ReportDetail;
+import com.example.hanoi_fixlt.adapter.ReportAdapter;
 import com.example.hanoi_fixlt.model.IncidentReport;
 import com.example.hanoi_fixlt.adapter.IncidentReportAdapter;
 //import com.example.hanoi_fixlt.IncidentListActivity; //Xem thêm
 
+import com.example.hanoi_fixlt.model.Report;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,23 +43,35 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class SearchFragment extends Fragment {
+    private ArrayAdapter<String> districtAdapter, wardAdapter, cateAdapter;//Adapter kết nối dữ liệu danh sách với giao diện Spinner.
+    private List<String> districtList = new ArrayList<>();//danh sách lưu dữ liệu lấy từ Firebase để hiển thị lên Spinner.
+    private List<String> cateList = new ArrayList<>();
 
-    private static final String TAG = "SearchFragment"; // TAG for Logcat
-
-    private EditText searchEditText;
-    private ImageView searchIcon;
-    private Button btnAdvancedSearch;
-    private LinearLayout searchResultsPlaceholder;
-    private RecyclerView searchResultsRecyclerView;
-
-    private IncidentReportAdapter searchResultsAdapter;
-    private List<IncidentReport> allIncidentReports; // List of all reports
-    private List<IncidentReport> filteredIncidentReports; // List of filtered reports
-
-    private DatabaseReference incidentsRef; // Firebase reference to the "incidents" node
+    private EditText edtSearchContent, toDate, fromDate;
+    private Spinner spinner1, spinner2;
+    private Button btn1, btn2;
+    private RecyclerView recyclerView;
+    private LinearLayout linear1, linear2, linear3, linear4, linear5;
+    private ConstraintLayout cons1, cons2;
+    private ReportAdapter reportAdapter;
+    private List<Report> allReports = new ArrayList<>();
+    private List<Report> filteredReports = new ArrayList<>();
+    private Map<String, String> categoryIconMap = new HashMap<>();
+    private DatabaseReference databaseRef;
+    private DatabaseReference categoryRef;
+    private Map<String, String> categoryNameToIdMap = new HashMap<>();
+    private long startTimestamp = Long.MIN_VALUE;
+    private long endTimestamp = Long.MAX_VALUE;
+    private String selectedDistrict = "", selectedCategory = "";
+    private ImageButton img1, img2;
 
     public SearchFragment() {
         // Required empty constructor
@@ -56,155 +80,272 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: Starting to create View for SearchFragment.");
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        Log.d(TAG, "onCreateView: Layout fragment_search has been inflated.");
 
-        // Initialize Firebase Database Reference
-        incidentsRef = FirebaseDatabase.getInstance().getReference("incidents");
-        Log.d(TAG, "onCreateView: Initializing FirebaseDatabase reference to 'incidents'.");
+        edtSearchContent = view.findViewById(R.id.searchEditText);
+        toDate = view.findViewById(R.id.toDate);
+        fromDate = view.findViewById(R.id.fromDate);
+        spinner1 = view.findViewById(R.id.spinnerAddressSearch);
+        spinner2 = view.findViewById(R.id.spinnerCategorySearch);
+        btn1 = view.findViewById(R.id.btnAdvancedSearch);
+        btn2 = view.findViewById(R.id.btnSearch2);
+        linear1 = view.findViewById(R.id.linear1);
+        linear2 = view.findViewById(R.id.linear2);
+        linear3 = view.findViewById(R.id.linear3);
+        linear4 = view.findViewById(R.id.linear4);
+        linear5 = view.findViewById(R.id.linear5);
+        cons1 = view.findViewById(R.id.cons1);
+        cons2 = view.findViewById(R.id.cons2);
+        img1 = view.findViewById(R.id.imageButton);
+        img2 = view.findViewById(R.id.imageButton2);
 
-        // Map Views from layout
-        searchEditText = view.findViewById(R.id.searchEditText);
-        searchIcon = view.findViewById(R.id.searchIcon);
-        btnAdvancedSearch = view.findViewById(R.id.btnAdvancedSearch);
-        searchResultsPlaceholder = view.findViewById(R.id.searchResultsPlaceholder);
-        searchResultsRecyclerView = view.findViewById(R.id.searchResultsRecyclerView);
+        databaseRef = FirebaseDatabase.getInstance().getReference("DiaChi");
+        categoryRef = FirebaseDatabase.getInstance().getReference("IssueCategories");
 
-        // Initialize lists and adapter for search results RecyclerView
-        allIncidentReports = new ArrayList<>();
-        filteredIncidentReports = new ArrayList<>();
-        searchResultsAdapter = new IncidentReportAdapter(getContext(), filteredIncidentReports);
-        searchResultsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        searchResultsRecyclerView.setAdapter(searchResultsAdapter);
-        Log.d(TAG, "onCreateView: Initialized RecyclerView and Adapter.");
+        districtAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, districtList);
+        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(districtAdapter);
 
-        // Load all reports once when the Fragment is created
-        loadAllIncidents();
+        cateAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, cateList);
+        cateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(cateAdapter);
 
-        Log.d(TAG, "onCreateView: Completed creating View for SearchFragment.");
+        loadDistricts();
+        loadCategory();
+
+        districtList.add(0, "Tất cả");
+        cateList.add(0, "Tất cả");
+
+        recyclerView = view.findViewById(R.id.recyclerSearch22);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        reportAdapter = new ReportAdapter(getContext(), filteredReports, categoryIconMap, report -> {
+            Intent intent = new Intent(getContext(), ReportDetail.class);
+            intent.putExtra("reportId", report.getReportId());
+            startActivity(intent);
+        });
+
+        recyclerView.setAdapter(reportAdapter);
+
+        setupDatePickers();
+        loadCategoryIconsAndReports();
+
+        edtSearchContent.addTextChangedListener(new TextWatcher() {
+
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterReports(s.toString());
+            }
+        });
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linear1.setVisibility(View.VISIBLE);
+                linear2.setVisibility(View.VISIBLE);
+                linear3.setVisibility(View.VISIBLE);
+                linear4.setVisibility(View.VISIBLE);
+                linear5.setVisibility(View.VISIBLE);
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterReports();
+                linear1.setVisibility(View.GONE);
+                linear2.setVisibility(View.GONE);
+                linear3.setVisibility(View.GONE);
+                linear4.setVisibility(View.GONE);
+                linear5.setVisibility(View.GONE);
+            }
+        });
+
+
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG, "onViewCreated: Started.");
-
-        // Handle click event for the search icon
-        searchIcon.setOnClickListener(v -> performSearch());
-
-        // Handle Enter key press on the keyboard in EditText
-        searchEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event == null || event.getAction() == android.view.KeyEvent.ACTION_DOWN && event.getKeyCode() == android.view.KeyEvent.KEYCODE_ENTER) {
-                performSearch();
-                return true;
-            }
-            return false;
-        });
-
-        // Handle click event for "Advanced Search" button
-        btnAdvancedSearch.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Advanced search functionality will be developed later.", Toast.LENGTH_SHORT).show();
-            // Navigate to advanced search Activity/Fragment if available
-        });
-
-        // Initially, show the placeholder
-        showPlaceholder();
-        Log.d(TAG, "onViewCreated: Completed.");
+    private void setupDatePickers() {
+        fromDate.setOnClickListener(v -> showDateDialog(fromDate, true));
+        toDate.setOnClickListener(v -> showDateDialog(toDate, false));
     }
 
-    /**
-     * Loads all incident reports from Firebase Realtime Database.
-     * This data will be used for client-side filtering.
-     */
-    private void loadAllIncidents() {
-        Log.d(TAG, "loadAllIncidents: Loading all reports from Firebase.");
-        incidentsRef.addValueEventListener(new ValueEventListener() {
+    private void showDateDialog(EditText target, boolean isStart) {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), (view, y, m, d) -> {
+            String dateStr = d + "/" + (m + 1) + "/" + y;
+            target.setText(dateStr);
+            Calendar cal = Calendar.getInstance();
+            cal.set(y, m, d, 0, 0, 0);
+            if (isStart) startTimestamp = cal.getTimeInMillis();
+            else endTimestamp = cal.getTimeInMillis();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
+    }
+
+    private void filterReports() {
+        // Lấy giá trị từ Spinner với kiểm tra null
+        String districtFilter = spinner1.getSelectedItemPosition() == 0 ?
+                null : spinner1.getSelectedItem().toString();
+        String categoryFilter = spinner2.getSelectedItemPosition() == 0 ?
+                null : spinner2.getSelectedItem().toString();
+
+        filteredReports.clear();
+
+        for (Report report : allReports) {
+            if (report == null) continue;
+
+            boolean matchDistrict = districtFilter == null ||
+                    (report.getDistrict() != null &&
+                            report.getDistrict().equals(districtFilter));
+
+            boolean matchCategory = categoryFilter == null ||
+                    (report.getCategoryId() != null &&
+                            report.getCategoryId().equals(categoryNameToIdMap.get(categoryFilter)));
+
+            boolean matchDate = true;
+            if (!fromDate.getText().toString().isEmpty() || !toDate.getText().toString().isEmpty()) {
+                long reportTime = parseDateToMillis(report.getSubmittedAt());
+                matchDate = reportTime >= startTimestamp && reportTime <= endTimestamp;
+            }
+
+            if (matchDistrict && matchCategory && matchDate) {
+                filteredReports.add(report);
+                Log.d("FILTER_DEBUG", "Matched report: " + report.getReportId());
+            }
+        }
+
+        if (filteredReports.isEmpty()) {
+            Toast.makeText(getContext(), "Không tìm thấy báo cáo phù hợp", Toast.LENGTH_SHORT).show();
+        }
+
+        reportAdapter.notifyDataSetChanged();
+        Log.d("FILTER_RESULT", "Found " + filteredReports.size() + " reports");
+    }
+
+
+
+
+
+    private long parseDateToMillis(String dateStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date date = sdf.parse(dateStr);
+            return date != null ? date.getTime() : 0;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private void loadDistricts() {
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                allIncidentReports.clear(); // Clear old data
-                if (snapshot.exists()) {
-                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
-                        IncidentReport report = postSnapshot.getValue(IncidentReport.class);
-                        if (report != null) {
-                            report.setId(postSnapshot.getKey()); // Get ID from Firebase key
-                            allIncidentReports.add(report);
-                            Log.d(TAG, "loadAllIncidents: Loaded report: " + report.getId() + " - " + report.getType());
-                        }
-                    }
-                    Log.d(TAG, "loadAllIncidents: Loaded a total of " + allIncidentReports.size() + " reports.");
-                    // After loading, perform search if there's a keyword in EditText
-                    if (!searchEditText.getText().toString().trim().isEmpty()) {
-                        performSearch();
-                    }
-                } else {
-                    Log.d(TAG, "loadAllIncidents: No data in 'incidents' node.");
-                    Toast.makeText(getContext(), "No incident data to search.", Toast.LENGTH_LONG).show();
-                }
-            }
+                districtList.clear();
+                districtList.add("Tất cả"); // Luôn thêm item mặc định đầu tiên
 
+                for (DataSnapshot districtSnap : snapshot.getChildren()) {
+                    String districtName = districtSnap.getKey();
+                    if (districtName != null) {
+                        districtList.add(districtName);
+                        Log.d("DISTRICT_DEBUG", "Loaded district: " + districtName);
+                    }
+                }
+                spinner1.setSelection(0); // Chọn mục đầu tiên (Tất cả)
+                districtAdapter.notifyDataSetChanged();
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error loading data: " + error.getMessage(), Toast.LENGTH_LONG).show();
-                Log.e(TAG, "loadAllIncidents: Error loading data from Firebase: " + error.getMessage(), error.toException());
+                Toast.makeText(getContext(), "Lỗi tải Quận", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    /**
-     * Performs a search based on the entered keyword.
-     * Filters data from the `allIncidentReports` list.
-     */
-    private void performSearch() {
-        String queryText = searchEditText.getText().toString().trim().toLowerCase();
-        Log.d(TAG, "performSearch: Performing search with keyword: '" + queryText + "'");
+    private void loadCategory() {
+        categoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                cateList.clear();
+                cateList.add("Tất cả"); // Thêm mục mặc định
+                categoryNameToIdMap.clear();
 
-        filteredIncidentReports.clear(); // Clear old results
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    String name = snap.child("Name").getValue(String.class);
+                    if (name != null && snap.getKey() != null) {
+                        cateList.add(name);
+                        categoryNameToIdMap.put(name, snap.getKey());
+                    }
+                }
+                cateAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Lỗi tải danh mục", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-        if (queryText.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter a search keyword.", Toast.LENGTH_SHORT).show();
-            showPlaceholder(); // Show placeholder again if no keyword
-            searchResultsAdapter.notifyDataSetChanged(); // Update RecyclerView (empty it)
-            return;
-        }
+    private void loadCategoryIconsAndReports() {
+        DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference("IssueCategories");
+        categoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override public void onDataChange(@NonNull DataSnapshot snapshot) {
+                categoryIconMap.clear();
+                for (DataSnapshot cat : snapshot.getChildren()) {
+                    String id = cat.getKey();
+                    String iconUrl = cat.child("IconUrl").getValue(String.class);
+                    if (id != null && iconUrl != null) {
+                        categoryIconMap.put(id, iconUrl);
+                    }
+                }
+                loadAllReports();
+            }
 
-        for (IncidentReport report : allIncidentReports) {
-            String reportDescription = report.getDescription() != null ? report.getDescription().toLowerCase() : "";
-            String reportType = report.getType() != null ? report.getType().toLowerCase() : "";
-            String reportLocation = report.getLocation() != null ? report.getLocation().toLowerCase() : "";
+            @Override public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Lỗi tải danh mục", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-            // Filter by title or content or location
-            if (reportDescription.contains(queryText) || reportType.contains(queryText) || reportLocation.contains(queryText)) {
-                filteredIncidentReports.add(report);
+    private void loadAllReports() {
+        DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference("Reports");
+        reportsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                allReports.clear();
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    Report report = snap.getValue(Report.class);
+                    if (report != null) {
+                        Log.d("REPORT_LOAD", "Loaded report ID: " + report.getReportId() +
+                                ", District: " + report.getDistrict() +
+                                ", Category: " + report.getCategoryId());
+                        allReports.add(report);
+                    }
+                }
+                filteredReports.addAll(allReports);
+                reportAdapter.notifyDataSetChanged();
+            }
+
+            @Override public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Lỗi tải báo cáo", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void filterReports(String keyword) {
+        filteredReports.clear();
+        if (keyword.trim().isEmpty()) {
+            filteredReports.addAll(allReports);
+        } else {
+            for (Report r : allReports) {
+                // Kiểm tra xem mô tả có null không trước khi gọi toString()
+                if (r.getDescription() != null && r.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                    filteredReports.add(r);
+                }
             }
         }
-
-        if (filteredIncidentReports.isEmpty()) {
-            Toast.makeText(getContext(), "No results found for '" + queryText + "'", Toast.LENGTH_SHORT).show();
-            showPlaceholder(); // Show placeholder if no results
-        } else {
-            showResults(); // Show RecyclerView with results
-        }
-        searchResultsAdapter.notifyDataSetChanged(); // Update RecyclerView
-        Log.d(TAG, "performSearch: Search completed. Found " + filteredIncidentReports.size() + " results.");
-    }
-
-    /**
-     * Shows the placeholder and hides the RecyclerView.
-     */
-    private void showPlaceholder() {
-        searchResultsPlaceholder.setVisibility(View.VISIBLE);
-        searchResultsRecyclerView.setVisibility(View.GONE);
-        Log.d(TAG, "showPlaceholder: Showing placeholder.");
-    }
-
-    /**
-     * Shows the RecyclerView and hides the placeholder.
-     */
-    private void showResults() {
-        searchResultsPlaceholder.setVisibility(View.GONE);
-        searchResultsRecyclerView.setVisibility(View.VISIBLE);
-        Log.d(TAG, "showResults: Showing RecyclerView results.");
+        reportAdapter.notifyDataSetChanged();
     }
 }
