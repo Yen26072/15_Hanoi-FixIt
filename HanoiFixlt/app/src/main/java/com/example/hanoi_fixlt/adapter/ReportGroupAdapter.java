@@ -16,6 +16,7 @@ import com.example.hanoi_fixlt.R;
 import com.example.hanoi_fixlt.activity.AllReports;
 import com.example.hanoi_fixlt.adapter.ReportAdapter;
 import com.example.hanoi_fixlt.model.GroupedReport;
+import com.example.hanoi_fixlt.model.Report;
 
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,22 @@ public class ReportGroupAdapter extends RecyclerView.Adapter<ReportGroupAdapter.
     private Context context;
     private List<GroupedReport> groupedReportList;
     private Map<String, String> categoryIconMap;
+    private ReportAdapter.OnReportClickListener listener;
+
 
     public ReportGroupAdapter(Context context, List<GroupedReport> groupedReportList, Map<String, String> categoryIconMap) {
         this.context = context;
         this.groupedReportList = groupedReportList;
         this.categoryIconMap = categoryIconMap;
+    }
+
+    public ReportGroupAdapter(Context context, List<GroupedReport> groupedReportList,
+                              Map<String, String> categoryIconMap,
+                              ReportAdapter.OnReportClickListener listener) {
+        this.context = context;
+        this.groupedReportList = groupedReportList;
+        this.categoryIconMap = categoryIconMap;
+        this.listener = listener;
     }
 
     @NonNull
@@ -44,7 +56,7 @@ public class ReportGroupAdapter extends RecyclerView.Adapter<ReportGroupAdapter.
         holder.txtCategory.setText(group.getCategoryName());
 
         // Gắn adapter con
-        ReportAdapter reportAdapter = new ReportAdapter(context, group.getReports(), categoryIconMap);
+        ReportAdapter reportAdapter = new ReportAdapter(context, group.getReports(), categoryIconMap, listener);
         holder.recyclerReports.setLayoutManager(new LinearLayoutManager(context));
         holder.recyclerReports.setAdapter(reportAdapter);
 

@@ -12,13 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.hanoi_fixlt.R;
-import com.example.hanoi_fixlt.activity.ReportDetail;
+import com.example.hanoi_fixlt.activity.ReportDetailAdmin;
 import com.example.hanoi_fixlt.adapter.ReportAdapter;
 import com.example.hanoi_fixlt.model.Report;
 import com.google.firebase.database.DataSnapshot;
@@ -60,7 +58,7 @@ public class ReportmanagementFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         reportAdapter = new ReportAdapter(getContext(), filteredReports, categoryIconMap, report -> {
             // Mở activity mới khi bấm vào item
-            Intent intent = new Intent(getContext(), ReportDetail.class);
+            Intent intent = new Intent(getContext(), ReportDetailAdmin.class);
             intent.putExtra("reportId", report.getReportId());
             startActivity(intent);
         });
