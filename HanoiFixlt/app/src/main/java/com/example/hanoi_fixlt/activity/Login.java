@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,20 +85,13 @@ public class Login extends AppCompatActivity {
                                     if (user != null && user.getPasswordHash().equals(passwordHash)) {//so sánh passwordHash nhập từ người dùng trùng khớp với passwordHash đã lưu trong Firebase
                                         //Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                                         txtError.setVisibility(View.GONE);
-                                        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = prefs.edit();
-                                        editor.putBoolean("isLoggedIn", true);
-                                        editor.putString("userPhone", phone); // nếu cần
-                                        editor.apply();
-                                        String userId = user.getUserId(); // 🔍 ID tự sinh trong Firebase
-                                        editor.putString("userId", userId); // ✔ lưu đúng ID
                                         SharedPreferences prefs1 = getSharedPreferences("user_prefs", MODE_PRIVATE);
                                         SharedPreferences.Editor editor1 = prefs1.edit();
-                                        editor1.putString("userId", userId); // ✔ lưu đúng ID
+                                        editor1.putString("userId", user.getUserId()); // ✔ lưu đúng ID
                                         editor1.apply();
 
                                         DatabaseReference roleRef = FirebaseDatabase.getInstance().getReference("UserRoles");
-                                        roleRef.orderByChild("UserId").equalTo(userId)
+                                        roleRef.orderByChild("UserId").equalTo(user.getUserId())
                                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot roleSnapshot) {
@@ -110,13 +104,13 @@ public class Login extends AppCompatActivity {
                                                                     @Override
                                                                     public void onDataChange(@NonNull DataSnapshot roleNameSnap) {
                                                                         String roleName = roleNameSnap.child("RoleName").getValue(String.class);
-                                                                        Intent intent;
-                                                                        if ("Admin".equals(roleName)) {
-                                                                            intent = new Intent(Login.this, AdminActivity.class);
-                                                                        } else {
-                                                                            intent = new Intent(Login.this, MainActivity.class);
-                                                                        }
-
+                                                                        Log.d("DEBUG_ROLE", "roleName = " + roleName);
+                                                                        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                                                                        SharedPreferences.Editor editor = prefs.edit();
+                                                                        editor.putBoolean("isLoggedIn", true);
+                                                                        editor.putString("rolename", roleName);
+                                                                        editor.apply();
+                                                                        Intent intent = new Intent(Login.this, MainActivity.class);
                                                                         startActivity(intent);
                                                                         finish();
                                                                     }
@@ -138,7 +132,7 @@ public class Login extends AppCompatActivity {
                                                     }
                                                 });
 
-                                        finish(); // Đóng màn login
+
                                         return;
                                     }
                                 }

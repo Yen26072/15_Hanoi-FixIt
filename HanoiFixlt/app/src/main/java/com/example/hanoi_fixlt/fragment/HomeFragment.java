@@ -1,6 +1,7 @@
 package com.example.hanoi_fixlt.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hanoi_fixlt.R;
+import com.example.hanoi_fixlt.activity.ReportDetail;
 import com.example.hanoi_fixlt.adapter.ReportGroupAdapter;
 import com.example.hanoi_fixlt.model.GroupedReport;
 import com.example.hanoi_fixlt.model.Report;
@@ -47,7 +49,12 @@ public class HomeFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerViewGroups);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ReportGroupAdapter(getContext(), groupedReportList, categoryIconMap);
+        adapter = new ReportGroupAdapter(getContext(), groupedReportList, categoryIconMap, report -> {
+            // Mở activity mới khi bấm vào item
+            Intent intent = new Intent(getContext(), ReportDetail.class);
+            intent.putExtra("reportId", report.getReportId());
+            startActivity(intent);
+        });
         recyclerView.setAdapter(adapter);
 
         new ViewModelProvider(requireActivity())

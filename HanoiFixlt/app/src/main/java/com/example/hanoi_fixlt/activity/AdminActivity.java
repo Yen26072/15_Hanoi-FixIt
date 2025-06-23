@@ -3,7 +3,10 @@ package com.example.hanoi_fixlt.activity;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -46,6 +49,8 @@ public class AdminActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
@@ -77,5 +82,30 @@ public class AdminActivity extends AppCompatActivity {
                     break;
             }
         }).attach();
+
+        imageAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(AdminActivity.this, v);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_dropdown2, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(item -> {
+                    int id = item.getItemId();
+                    Log.d("PopupMenu", "Item clicked: " + id);
+                     if (id == R.id.item1) {
+                         SharedPreferences.Editor editor = prefs.edit();
+                         editor.clear();
+                         editor.apply();
+
+                         Intent intent = new Intent(AdminActivity.this, MainActivity.class);
+                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                         startActivity(intent);
+                         finish();
+                         return true;
+                    }
+                    return false;
+                });
+                popupMenu.show();
+            }
+        });
     }
 }

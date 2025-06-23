@@ -22,12 +22,25 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
     private Context context;
     private List<Report> reportList;
     private Map<String, String> categoryIconMap;
+    private OnReportClickListener listener;
+
+    public interface OnReportClickListener {
+        void onReportClick(Report report);
+    }
 
     public ReportAdapter(Context context, List<Report> reportList, Map<String, String> categoryIconMap) {
         this.context = context;
         this.reportList = reportList;
         this.categoryIconMap = categoryIconMap;
     }
+
+    public ReportAdapter(Context context, List<Report> reportList, Map<String, String> categoryIconMap, OnReportClickListener listener) {
+        this.context = context;
+        this.reportList = reportList;
+        this.categoryIconMap = categoryIconMap;
+        this.listener = listener;
+    }
+
 
     @NonNull
     @Override
@@ -43,6 +56,13 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         holder.txtTime.setText("Thời gian: " + report.getSubmittedAt());
         holder.txtStatus.setText("Trạng thái: " + report.getStatus());
         holder.txtDescription.setText("Nội dung: " + report.getDescription());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) listener.onReportClick(report);
+
+            }
+        });
         Log.d("DEBUG","Địa điểm: " + report.getAddressDetail());
         Log.d("DEBUG","Thời gian: " + report.getSubmittedAt());
         Log.d("DEBUG","Trạng thái: " + report.getStatus());
@@ -62,7 +82,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
     public static class ReportViewHolder extends RecyclerView.ViewHolder {
         ImageView imgIncident;
-        TextView txtType, txtLocation, txtTime, txtStatus, txtDescription;
+        TextView  txtLocation, txtTime, txtStatus, txtDescription;
 
         public ReportViewHolder(@NonNull View itemView) {
             super(itemView);
