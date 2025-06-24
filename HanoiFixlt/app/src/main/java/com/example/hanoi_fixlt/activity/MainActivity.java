@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnRegister, btnLogin;
     ImageButton imageNotifications, imageAvatar;
     LinearLayout layoutButton, layoutImage;
+    String userId;
 
     @Override
     protected void onStop() {
@@ -77,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         boolean loggedIn = prefs.getBoolean("isLoggedIn", false);
         String role = prefs.getString("rolename", "");
+
+        SharedPreferences prefs1 = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        userId = prefs1.getString("userId", "");
 
         if (loggedIn) {
             if ("Admin".equals(role)) {
@@ -150,10 +154,12 @@ public class MainActivity extends AppCompatActivity {
 
                     if (id == R.id.item1) {
                         Intent intent = new Intent(MainActivity.this, Accountinformation.class);
+                        intent.putExtra("userId", userId); // truyền userId
                         startActivity(intent);
                         return true;
                     } else if (id == R.id.item2) {
                         Intent intent = new Intent(MainActivity.this, Myreport.class);
+                        intent.putExtra("userId", userId); // truyền userId
                         startActivity(intent);
                         return true;
                     } else if (id == R.id.item3) {

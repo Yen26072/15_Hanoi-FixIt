@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:textSize="22sp"
         android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:text="reportdetailadmin" />
@@ -24,6 +25,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:textColor="@color/blue"
         android:text="TextView" />
 
@@ -32,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
         android:textColor="@color/black"
         android:text="TextView" />
 
@@ -40,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
         android:textColor="@color/black"
         android:text="TextView" />
 
@@ -48,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
         android:textColor="@color/black"
         android:text="TextView" />
 
@@ -56,6 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
         android:textColor="@color/black"
         android:text="TextView" />
 
@@ -64,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
         android:textColor="@color/black"
         android:text="TextView" />
 
@@ -72,6 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
         android:textColor="@color/black"
         android:text="Hình ảnh:" />
 
@@ -80,6 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
         android:scaleType="centerCrop"
         android:src="@drawable/placeholder_rounded" />
 
@@ -94,6 +103,7 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
+            android:layout_marginStart="20dp"
             android:layout_gravity="center_vertical"
             android:text="Trạng thái:" />
 
@@ -112,6 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:background="@drawable/button_edit"
+        android:layout_marginHorizontal="20dp"
         android:backgroundTint="@color/blue"
         android:textColor="@color/white"
         android:text="Xác nhận" />

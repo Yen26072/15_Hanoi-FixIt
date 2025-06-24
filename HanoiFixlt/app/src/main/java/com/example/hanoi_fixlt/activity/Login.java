@@ -35,7 +35,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Login extends AppCompatActivity {
     EditText edtPhone, edtPass;
-    TextView txtError;
+    TextView txtError, txtRegister;
     Button btnLogin;
 
     @Override
@@ -57,6 +57,15 @@ public class Login extends AppCompatActivity {
         edtPass = findViewById(R.id.edtPasswordLogin);
         btnLogin = findViewById(R.id.btnLoginLogin);
         txtError = findViewById(R.id.txtErrorLogin);
+        txtRegister = findViewById(R.id.tvRegisterLogin);
+
+        txtRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
+            }
+        });
 
         btnLogin.setOnClickListener(v ->{
             String phone = edtPhone.getText().toString().trim();//loại bỏ khoảng trắng đầu cuoi
