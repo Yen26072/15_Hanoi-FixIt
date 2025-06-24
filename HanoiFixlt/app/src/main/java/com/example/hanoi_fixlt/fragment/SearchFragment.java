@@ -93,7 +93,7 @@ public class SearchFragment extends Fragment {
         img1 = view.findViewById(R.id.imageButton);
         img2 = view.findViewById(R.id.imageButton2);
 
-        databaseRef = FirebaseDatabase.getInstance().getReference("DiaChi");
+        databaseRef = FirebaseDatabase.getInstance().getReference("Location");
         categoryRef = FirebaseDatabase.getInstance().getReference("IssueCategories");
 
         districtAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, districtList);

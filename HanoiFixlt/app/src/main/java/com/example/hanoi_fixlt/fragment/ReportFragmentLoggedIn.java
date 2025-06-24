@@ -97,7 +97,7 @@ public class ReportFragmentLoggedIn extends Fragment {
         edtAddressDetail = view.findViewById(R.id.edtAddress);
         scrollView = view.findViewById(R.id.scrollViewReport);
 
-        databaseRef = FirebaseDatabase.getInstance().getReference("DiaChi");
+        databaseRef = FirebaseDatabase.getInstance().getReference("Locations");
         categoryRef = FirebaseDatabase.getInstance().getReference("IssueCategories");
         reportRef = FirebaseDatabase.getInstance().getReference("Reports");
         imageRef = FirebaseDatabase.getInstance().getReference("ReportImages");
