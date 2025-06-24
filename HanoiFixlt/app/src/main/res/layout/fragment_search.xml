@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0F0F0"
+    android:background="@color/white"
     android:padding="16dp"
     tools:context=".fragment.SearchFragment">
 
     <!-- Thanh tìm kiếm -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/rounded_search_background"
+        android:background="@drawable/search_background"
         android:paddingHorizontal="12dp"
         android:paddingVertical="8dp"
         android:gravity="center_vertical"
@@ -32,7 +33,7 @@
             android:singleLine="true"
             android:background="@android:color/transparent"
             android:textColorHint="#9E9E9E"
-            android:textColor="#212121"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:paddingEnd="8dp"/>
 
@@ -53,53 +54,202 @@
         android:id="@+id/btnAdvancedSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tìm kiếm nâng cao"
-        android:textColor="#4F46E5"
+        android:layout_gravity="end"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button_outline_blue_small"
-        android:src="@drawable/button_outline_blue_small"
-        android:textSize="14sp"
-        android:textStyle="bold"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
-        android:layout_gravity="end"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
-        android:layout_marginBottom="24dp"/>
+        android:src="@drawable/button_outline_blue_small"
+        android:text="Tìm kiếm nâng cao"
+        android:textColor="@color/blue"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="visible" />
 
-    <!-- Placeholder cho trạng thái ban đầu hoặc không có kết quả -->
-    <LinearLayout
-        android:id="@+id/searchResultsPlaceholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="24dp"
-        android:visibility="visible"> <!-- Mặc định hiển thị -->
 
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:src="@drawable/logo"
-            android:contentDescription="Hanoi FixIt Logo"
-            android:layout_marginBottom="16dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bắt đầu tìm kiếm sự cố tại Hà Nội"
-            android:textColor="#616161"
-            android:textSize="18sp"
-            android:textStyle="italic"
-            android:gravity="center"/>
-    </LinearLayout>
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"
+            android:paddingVertical="16dp">
 
-    <!-- RecyclerView để hiển thị kết quả tìm kiếm -->
+            <LinearLayout
+                android:id="@+id/linear2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Vị trí:"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/spinnerAddressSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/spinner_background"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="36dp"
+                    android:popupBackground="#FFFFFF"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Từ:"
+                    android:textColor="@color/black" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cons1"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+
+                    <EditText
+                        android:id="@+id/fromDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/edittext_report"
+                        android:ems="10"
+                        android:hint="26/03/2025"
+                        android:focusable="false"
+                        android:inputType="date"
+                        android:paddingStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@color/white"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/calendar"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear4"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Đến:"
+                    android:textColor="@color/black" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cons2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/toDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/edittext_report"
+                        android:ems="10"
+                        android:hint="26/03/2025"
+                        android:focusable="false"
+                        android:inputType="date"
+                        android:paddingStart="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton2"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@color/white"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/calendar"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear5"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/loaisuco_danhmuc"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/spinnerCategorySearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/spinner_background"
+                    android:paddingStart="16dp" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btnSearch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_edit"
+                android:backgroundTint="@color/blue"
+                android:text="Tìm kiếm"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchResultsRecyclerView"
+        android:id="@+id/recyclerSearch22"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_incident_report" /> <!-- Cần đảm bảo có item_incident_report.xml -->
+        android:layout_height="0dp" />
+
 
 </LinearLayout>

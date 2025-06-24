@@ -2,65 +2,121 @@ package com.example.hanoi_fixlt.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.hanoi_fixlt.R;
+import com.example.hanoi_fixlt.model.Report;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link QuantityFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class QuantityFragment extends Fragment {
+    private LinearLayout statisticsContainer;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public QuantityFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment QuantityFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static QuantityFragment newInstance(String param1, String param2) {
-        QuantityFragment fragment = new QuantityFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quantity, container, false);
+        View view = inflater.inflate(R.layout.fragment_quantity, container, false);
+
+        statisticsContainer = view.findViewById(R.id.linear);
+        loadStatistics();
+        return view;
+    }
+
+    private void loadStatistics() {
+        DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference("IssueCategories");
+        DatabaseReference reportRef = FirebaseDatabase.getInstance().getReference("Reports");
+
+        Map<String, String> iconMap = new HashMap<>();
+        Map<String, String> nameMap = new HashMap<>();
+        Map<String, Integer> countMap = new HashMap<>();
+
+        categoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot cat : snapshot.getChildren()) {
+                    String id = cat.getKey();
+                    String name = cat.child("Name").getValue(String.class);
+                    String iconUrl = cat.child("IconUrl").getValue(String.class);
+                    if (id != null && name != null) {
+                        nameMap.put(id, name);
+                        iconMap.put(id, iconUrl);
+                        countMap.put(id, 0); // khởi tạo số lượng
+                    }
+
+                }
+
+                reportRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot snap : snapshot.getChildren()) {
+                            Report report = snap.getValue(Report.class);
+                            if (report != null && report.getCategoryId() != null) {
+                                String catId = report.getCategoryId();
+                                if (countMap.containsKey(catId)) {
+                                    countMap.put(catId, countMap.get(catId) + 1);
+                                }
+                            }
+                        }
+
+                        statisticsContainer.removeAllViews();
+                        for (String catId : nameMap.keySet()) {
+                            View itemView = LayoutInflater.from(getContext()).inflate(R.layout.item_quantity, statisticsContainer, false);
+
+                            TextView txtName = itemView.findViewById(R.id.txtCategoryName);
+                            TextView txtCount = itemView.findViewById(R.id.txtReportCount);
+                            ImageView imgIcon = itemView.findViewById(R.id.imgCategory);
+
+                            txtName.setText(nameMap.get(catId));
+                            txtCount.setText(String.valueOf(countMap.get(catId)));
+
+                            String iconUrl = iconMap.get(catId);
+                            if (iconUrl != null) {
+                                Glide.with(getContext())
+                                        .load(iconUrl)
+                                        .circleCrop() // Biến ảnh thành hình tròn
+                                        .into(imgIcon);
+
+                            }
+
+                            statisticsContainer.addView(itemView);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(), "Lỗi tải báo cáo", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Lỗi tải danh mục", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import com.example.hanoi_fixlt.R;
 import com.example.hanoi_fixlt.activity.ReportDetailAdmin;
 import com.example.hanoi_fixlt.adapter.ReportAdapter;
 import com.example.hanoi_fixlt.model.Report;
+import com.example.hanoi_fixlt.viewmodel.SharedViewModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,6 +66,15 @@ public class ReportmanagementFragment extends Fragment {
         });
         recyclerView.setAdapter(reportAdapter);
 
+        new ViewModelProvider(requireActivity())
+                .get(SharedViewModel.class)
+                .getReportStatusChanged()
+                .observe(getViewLifecycleOwner(), changed -> {
+                    if (changed) {
+                        loadCategoryIconsAndReports(); // Gọi lại dữ liệu
+                    }
+                });
+
         loadCategoryIconsAndReports();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -90,7 +101,7 @@ public class ReportmanagementFragment extends Fragment {
 
     private void loadCategoryIconsAndReports() {
         DatabaseReference categoriesRef = FirebaseDatabase.getInstance().getReference("IssueCategories");
-        categoriesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        categoriesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 categoryIconMap.clear();
@@ -113,7 +124,7 @@ public class ReportmanagementFragment extends Fragment {
 
     private void loadAllReports() {
         DatabaseReference reportsRef = FirebaseDatabase.getInstance().getReference("Reports");
-        reportsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        reportsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 allReports.clear();

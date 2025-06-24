@@ -54,19 +54,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Date;
 
-
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ReportFragmentLoggedIn#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ReportFragmentLoggedIn extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private Spinner spinnerDistrict, spinnerWard, spinnerCategory;
     private ArrayAdapter<String> districtAdapter, wardAdapter, cateAdapter;//Adapter kết nối dữ liệu danh sách với giao diện Spinner.
     private List<String> districtList = new ArrayList<>();//danh sách lưu dữ liệu lấy từ Firebase để hiển thị lên Spinner.
@@ -85,42 +74,10 @@ public class ReportFragmentLoggedIn extends Fragment {
     private EditText edtDescription, edtAddressDetail;
     private ScrollView scrollView;
 
-    private StorageReference storageRef;
     private Map<String, String> categoryNameToIdMap = new HashMap<>();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public ReportFragmentLoggedIn() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ReportFragmentLoggedIn.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ReportFragmentLoggedIn newInstance(String param1, String param2) {
-        ReportFragmentLoggedIn fragment = new ReportFragmentLoggedIn();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -144,7 +101,6 @@ public class ReportFragmentLoggedIn extends Fragment {
         categoryRef = FirebaseDatabase.getInstance().getReference("IssueCategories");
         reportRef = FirebaseDatabase.getInstance().getReference("Reports");
         imageRef = FirebaseDatabase.getInstance().getReference("ReportImages");
-        storageRef = FirebaseStorage.getInstance().getReference("report_images");
 
 
         districtAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, districtList);
@@ -306,7 +262,7 @@ public class ReportFragmentLoggedIn extends Fragment {
         reportData.put("Description", description);
         reportData.put("AddressDetail", addressDetail);
         reportData.put("UserId", userId);
-        reportData.put("Status", "Submitted");
+        reportData.put("Status", "Mới gửi");
         reportData.put("SubmittedAt", formattedDate);
         reportData.put("LastUpdatedAt", formattedDate);
         reportRef.child(reportId).setValue(reportData);
