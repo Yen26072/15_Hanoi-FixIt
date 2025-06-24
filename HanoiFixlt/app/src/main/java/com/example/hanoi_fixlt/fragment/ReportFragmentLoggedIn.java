@@ -262,7 +262,7 @@ public class ReportFragmentLoggedIn extends Fragment {
         reportData.put("Description", description);
         reportData.put("AddressDetail", addressDetail);
         reportData.put("UserId", userId);
-        reportData.put("Status", "Submitted");
+        reportData.put("Status", "Mới gửi");
         reportData.put("SubmittedAt", formattedDate);
         reportData.put("LastUpdatedAt", formattedDate);
         reportRef.child(reportId).setValue(reportData);

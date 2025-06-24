@@ -13,16 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.util.Log;
-import android.view.inputmethod.EditorInfo; // Import EditorInfo
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,8 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hanoi_fixlt.R;
 import com.example.hanoi_fixlt.activity.ReportDetail;
 import com.example.hanoi_fixlt.adapter.ReportAdapter;
-import com.example.hanoi_fixlt.model.IncidentReport;
-import com.example.hanoi_fixlt.adapter.IncidentReportAdapter;
 //import com.example.hanoi_fixlt.IncidentListActivity; //Xem thêm
 
 import com.example.hanoi_fixlt.model.Report;
